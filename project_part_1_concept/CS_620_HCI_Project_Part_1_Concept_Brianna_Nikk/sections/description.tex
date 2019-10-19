@@ -1,0 +1,125 @@
+\section{Description}
+\label{sect:description}
+
+% Section 2 Part A
+\subsection{Product Details}
+\label{sect:product_details}
+
+\subsubsection{Main goals}
+\label{sect:main_goals}
+
+\begin{itemize}[itemsep=0.5mm, parsep=0pt]
+    \item {Build a GUI application that will simulate a desktop client for common banking tasks (deposit, withdraw, check balance, etc.).}
+    \item {Provide the end-user with visualizations that will show the state of the account over time.}
+    \item {Provide additional interfaces for different types of actions that the user will complete to simplify the interfaces and make their purposes intuitive.}
+    \item {Apply the Fundamental Principles of Interaction~\cite{THE_DESIGN_OF_EVERYDAY_THINGS:1} to our graphical user interfaces to help communicate to the end-user how our design's intentions.}
+    \item {Use the Seven Stages of Action Cycle~\cite{THE_DESIGN_OF_EVERYDAY_THINGS:1} to execute tasks in our application and evaluate if they help us reach our intended goal.}
+    \item {Apply the five primary usability measures~\cite{DESIGNING_THE_USER_INTERFACE:2} to evaluate our overall design.}
+    \item {Apply the Eight Golden Rules of Interface Design~\cite{DESIGNING_THE_USER_INTERFACE:2} to guide the development of our application.}
+\end{itemize}
+
+\newpage
+
+\subsubsection{Main Functionality and Characteristics}
+\label{sect:main_func}
+
+PyBank's functionality and characteristics are described below in Table~\ref{fig:functionality_table}. These properties of the application are grouped into three tiers, with those in tier 1 having the highest priority and those in tiers 2 and 3 having lower priorities.
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{ |p{0.10\linewidth}|p{0.50\linewidth}|  }
+         \hline
+         \multicolumn{2}{|c|}{\textbf{Functionality Table}} \\
+         \hline
+         \textbf{\emph{Tier}} & \textbf{\emph{Goal}} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Checking account information} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Create new account} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Deposit operations} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Withdraw operations} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Spending breakdown} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Pie chart showing spending per category} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Line graph showing spending trends per month} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Histogram graph showing spending trends per month} \\
+         \hline
+         \textcolor{Mahogany}{1} & \textcolor{Mahogany}{Login} \\
+         \hline
+         \textcolor{NavyBlue}{2} & \textcolor{NavyBlue}{User profile information} \\
+         \hline
+         \textcolor{NavyBlue}{2} & \textcolor{NavyBlue}{Savings account information} \\
+         \hline
+         \textcolor{OliveGreen}{3} & \textcolor{OliveGreen}{Credit Card information} \\
+         \hline
+         \textcolor{OliveGreen}{3} & \textcolor{OliveGreen}{Make Credit Card Payment} \\
+         \hline
+        \end{tabular}
+        \caption{The main functionality of the PyBank client application grouped into three tiers.}
+    	\label{fig:functionality_table}
+    \end{center}
+\end{table}
+
+\newpage
+
+\subsubsection{Planned Technologies and Tools}
+\label{sect:planned_tech_and_tools}
+
+The following list of planned technologies and tools we will be using to develop our application is not meant to be exhaustive. We will likely utilize additional libraries that we are unaware of at the time of this writing. The list below however, should include the most significant technologies and tools that will be used.
+
+\begin{itemize}
+    \item {Python 3.7+}
+    \item {\texttt{\textbf{matplotlib}} - a Python 2D plotting library which produces publication quality figures in a variety of hardcopy formats and interactive environments across platforms~\cite{MATPLOTLIB:4}. To work with {\texttt{\textbf{matplotlib}}, our team will utilize the library documentation~\cite{MATPLOTLIB:4} as well as Python A Crash Course~\cite{PYTHON_CRASH_COURSE:8} by Eric Matthes and Starting Out with Python~\cite{STARTING_OUT_WITH_PYTHON:9} by Tony Gaddis as reference material to help us complete our work regarding data visualizations.}}
+    \item {\texttt{\textbf{tkinter}} - the standard Python interface to the Tk GUI toolkit~\cite{THE_PYTHON_STANDARD_LIBRARY:3}. For the \texttt{\textbf{tkinter}} library, we will utilize the Python Standard Library~\cite{THE_PYTHON_STANDARD_LIBRARY:3} documentation as well as Python A Crash Course~\cite{PYTHON_CRASH_COURSE:8} by Eric Matthes and Starting Out with Python~\cite{STARTING_OUT_WITH_PYTHON:9} by Tony Gaddis as reference material to help us complete our work regarding the construction of our graphical user interface. }
+    \item {\texttt{\textbf{csv}} - a module that implements classes to read and write tabular data in \emph{csv} format~\cite{THE_PYTHON_STANDARD_LIBRARY:3}. For the {\texttt{\textbf{csv}}} library, we will utilize the Python Standard Library~\cite{THE_PYTHON_STANDARD_LIBRARY:3} as well as Automate the Boring Stuff with Python~\cite{PYTHON_AUTOMATE_THE_BORING_STUFF:10} by Al Sweigart and Python A Crash Course~\cite{PYTHON_CRASH_COURSE:8} by Eric Matthes for reference material to help us complete our work. We plan to utilize \emph{csv} files to handle interaction between our client application and the users as they perform actions with the graphical user interface.}
+    \item {\texttt{\textbf{time}} and \texttt{\textbf{datetime}} - a module provides various time-related functions and module that supplies classes for manipulating dates and times~\cite{THE_PYTHON_STANDARD_LIBRARY:3} respectively. For the \texttt{\textbf{time}} and \texttt{\textbf{datetime}} library, we will utilize the Python Standard Library~\cite{THE_PYTHON_STANDARD_LIBRARY:3} documentation and Automate the Boring Stuff with Python~\cite{PYTHON_AUTOMATE_THE_BORING_STUFF:10} by Al Sweigart. The date and time will be used to keep track of data over time and for analytical purposes.}
+    \item {\texttt{\textbf{os}} - a module that provides a portable way of using operating system dependent functionality~\cite{THE_PYTHON_STANDARD_LIBRARY:3}. For the \texttt{\textbf{os}} library, we will utilize the Python Standard Library~\cite{THE_PYTHON_STANDARD_LIBRARY:3} documentation.}
+    \item {\texttt{\textbf{sys}} - a module that provides access to some variables used or maintained by the interpreter and to functions that interact strongly with the interpreter~\cite{THE_PYTHON_STANDARD_LIBRARY:3}. For the \texttt{\textbf{sys}} library, we will utilize the Python Standard Library~\cite{THE_PYTHON_STANDARD_LIBRARY:3} documentation.}
+\end{itemize}
+
+\newpage
+
+\subsubsection{Related Systems}
+\label{sect:related_systems}
+
+Systems that are related to PyBank would be online applications from companies like USAA~\cite{USAA:6}, Wells Fargo~\cite{WELLS_FARGO:7}, and Mint by Intuit~\cite{MINT:5}. PyBank contains functionality similar to USAA and Wells Fargo, but operates closer to Mint since it works as a desktop client application. 
+
+The most novel aspect of this application is that the overwhelming majority of banking applications for clients exist solely on the web or through mobile applications. By creating a desktop client, our application would provide a new medium for users to manage their personal banking. Banks are a critical system for all individuals in the modern world and PyBank illustrates another way to bring a critical service to broader society.
+
+\newpage
+
+% Section 2 Part B
+    % Subsection word count ~560
+\subsection{Expected Significance and Impact}
+\label{sect:significance_and_impact}
+
+\subsubsection{Intended Users and Key Usability Goals}
+\label{sect:key_usability_goals}
+The target users of this system include users for banks. It will be designed for people who need a desktop solution to online banking. This includes but is not limited to entrepreneurs opening small businesses in need of a professional environment for banking, and users who would benefit from a budgeting application that do not have access to a smartphone.
+The intended usability goals of this project include designing for all of the main goals in interface design, effectiveness, efficiency and satisfaction. However, the main focus will be on reducing the rate of error by users, user retention over time, and creating an intuitive interface that is quick for users to learn.
+
+
+\subsubsection{Innovative Aspects}
+\label{sect:innovative_aspects}
+The innovative aspects of the project proposed stem from a current lack of banking desktop clients designed with the user in mind. While there are mobile applications for banking, not all users have mobile devices designed for these programs, or have access to their phones in specific circumstances. This application will provide an additional platform to allow customers access to their banking information. In addition, the proposed project utilizes graphing to allow users a more visual, user-friendly method of tracking expenditures and budgeting. These goals will be achieved through visualizations, universal terminology that maps to real world systems, and careful consideration of form field options.
+
+
+\subsubsection{Expected Impact}
+\label{sect:expected_impact}
+This application will result in an impact globally, environmentally, economically, and socially. 
+Globally, this application is capable of creating an impact through its ability to be distributed worldwide and potential utilization by customers of international banks.
+Additionally, clients in need of a desktop solution to online banking will be less likely to drive to the bank to handle transactions as they will be able to perform actions from home. This will result in a positive environmental impact as the necessary amount of driving for these users will be reduced, cutting the burning of fossil fuels. Another environmental affect this project has is reducing usage of paper. Instead of receiving and running reports on paper, users will be capable of utilizing this digital solution.
+Adding another platform for users to engage with their bank will also improve economic conditions. User confidence in the status of their bank account will increase spending, increasing cash flow in the economy. Simultaneously, increased involvement in personal banking can create a situation where people are more mindful of spending habits. This can result in increased socioeconomic standing of the population as a whole, and create a positive economic impact on an individual scale.
+The societal impact of this application comes from the lack of desktop clients for banking. By providing a new opportunity to people for checking their banking information, it is possible to create a culture of more financially aware individuals likely to save, and boost standards of living.
+
+
+\subsubsection{Contributions to Professional Growth}
+\label{sect:professional_growth}
+This project serves as an opportunity to gain exposure to different libraries utilizing Python, including available data visualization tools. These tools can be applied in a professional environment to create simple, appealing graphs for users that aid satisfaction and understanding when compared to plain text data. Additionally, the implementation of this project, will lead to increased experience designing user interfaces for a desktop client. This includes discovering good practices when designing a desktop application, practice developing wireframes, and experience with tools for creating user interface prototypes.
+
+% EOF

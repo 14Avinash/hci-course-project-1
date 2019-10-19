@@ -1,0 +1,74 @@
+% --------------------------------------------------------------------------------------------
+%
+% Author: Brianna Blain-Castelli and Nikkolas Irwin
+% Purpose: Project Part 1, CS 620 - HCI
+% Date: October 10, 2019
+%
+% --------------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[linktoc=all]{hyperref}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage[dvipsnames]{xcolor}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\newcommand\sectionbreak{\clearpage}
+
+\title{\textbf{Human-Computer Interaction} \\ \Large{CS 420/620} \\ \large{Project Part 1: Concept} \vspace{+16ex}}
+
+\author{\textbf{\Large Team 01} \\ \large{Brianna Blain-Castelli and Nikkolas Irwin}}
+\date{\vspace{-2ex} \large{October 18, 2019}}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    \vspace{+16ex}
+    {\textbf{\Large{Department of Computer Science and Engineering}} \\
+    \large{College of Engineering, University of Nevada, Reno}}
+\end{center}
+
+\pagenumbering{gobble}
+
+\newpage
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+
+% \setlength{\cftfigindent}{0pt}  % remove indentation from figures in lof
+\setlength{\cfttabindent}{0pt}  % remove indentation from tables in lot
+% \listoffigures
+\listoftables
+
+\doublespacing
+\newpage
+\pagenumbering{arabic}
+% \singlespacing
+
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/abstract.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/description.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\renewcommand\refname{Project Resources}
+\input{sections/project_resources.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+
+\end{document}
+
+% EOF
