@@ -7,10 +7,13 @@
 # Description: Contains the main program logic to run our program until the user exits.
 
 import sys
+
+# Imports used with the pyqt5_training package
 # import pyqt5_training.window as window_simple
 # import pyqt5_training.label as window_with_labels
 # import pyqt5_training.button as window_with_buttons
-import pyqt5_training.lineedit as window_with_line_edits
+# import pyqt5_training.lineedit as window_with_line_edits
+import pyqt5_training.image as window_with_image
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -18,7 +21,7 @@ def main():
     # Create the PyQt5 application
     app = qt_widgets.QApplication(sys.argv)
     # Create an instance of the main application window
-    win = window_with_line_edits.Window()
+    win = window_with_image.Window()
     # Exit the application
     sys.exit(app.exec_())
 
