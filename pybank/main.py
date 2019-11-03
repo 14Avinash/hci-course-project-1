@@ -12,8 +12,12 @@ import sys
 # import pyqt5_training.window as window_simple
 # import pyqt5_training.label as window_with_labels
 # import pyqt5_training.button as window_with_buttons
-# import pyqt5_training.lineedit as window_with_line_edits
-import pyqt5_training.image as window_with_image
+# import pyqt5_training.line_edit as window_with_line_edits
+# import pyqt5_training.image as window_with_image
+# import pyqt5_training.check_box as window_with_check_boxes
+# import pyqt5_training.combo_box as window_with_combo_boxes
+# import pyqt5_training.radio_button as window_with_radio_buttons
+import pyqt5_training.message_box as window_with_message_box
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -21,14 +25,14 @@ def main():
     # Create the PyQt5 application
     app = qt_widgets.QApplication(sys.argv)
     # Create an instance of the main application window
-    win = window_with_image.Window()
+    win = window_with_message_box.Window()
     # Exit the application
     sys.exit(app.exec_())
 
 
 try:  # Run the program only if this module is set properly by the interpreter as the entry point of our program.
     if __name__ == '__main__':
-        print('No exceptions were raised.')
+        print('No exceptions were raised...starting the program.')
     else:  # If this module is imported raise/throw an ImportError.
         raise ImportError
 except ImportError:  # If an ImportError is thrown exit the program attempting to import main.py prematurely.
@@ -36,6 +40,4 @@ except ImportError:  # If an ImportError is thrown exit the program attempting t
 except Exception as err:  # Print any other exception that causes the program to not start successfully.
     print(err)
 else:  # Call the main function if no exceptions were raised
-    print('Starting the program.')
     main()
-    print('Exiting the program.')
