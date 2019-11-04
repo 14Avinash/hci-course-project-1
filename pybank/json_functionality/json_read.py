@@ -16,7 +16,7 @@ def findUser(username, data=None):
             return user
     #Temporary error until UI functionality built
     print("Unable to find user")
-    return null
+    return None
 
 #Find user's flags
 # Data = full data set/dictionary.
@@ -29,6 +29,10 @@ def findUserFlags(username, data=None):
     else:
         #Find user's flags in JSON
         data = findUser(username)
+    #If user is not found
+    if data is None:
+        return None
+    #if user is found
     return data['flags']
 # Data = Data pertaining to a specific user. This function can only be used when user data has already been separated out
 def findFlags(data):
@@ -43,6 +47,10 @@ def findUserDir(username, data=None):
             data = findUserFlags(username, data)
     else:
         data = findUserFlags(username)
+    #If user is not found
+    if data is None:
+        return None
+    #if user is found
     return data.get("path", "")
 # Data = Data pertaining to a specific user. This function can only be used when user data has already been separated out
 def findDir(data):
@@ -58,6 +66,10 @@ def findUserSavings(username, data=None):
             data = findUserFlags(username, data)
     else:
         data = findUserFlags(username)
+    #If user is not found
+    if data is None:
+        return None
+    #if user is found
     return data.get("savings", "")
 # Data = Data pertaining to a specific user. This function can only be used when user data has already been separated out
 def findSavings(data):
@@ -71,6 +83,10 @@ def findUserChecking(username, data=None):
             data = findUserFlags(username, data)
     else:
         data = findUserFlags(username)
+    #If user is not found
+    if data is None:
+        return None
+    #if user is found
     return data.get("checking", "")
 # Data = Data pertaining to a specific user. This function can only be used when user data has already been separated out
 def findChecking(data):
@@ -88,6 +104,10 @@ def findUserPassword(username, data=None):
     else:
         #Find user in JSON
         data = findUser(username)
+    #If user is not found
+    if data is None:
+        return None
+    #if user is found
     return data.get("password", "")
 # Data = Data pertaining to a specific user. This function can only be used when user data has already been separated out
 def findPassword(data):
