@@ -1,0 +1,10 @@
+{"customers": [
+  {
+    "username": "scott",
+    "password": "Welcome123",
+    "flags": {
+      "checking": "False",
+      "savings": "False"
+    }
+  }
+  ]}
