@@ -2,14 +2,14 @@ import json
 
 #Read json into a variable
 def parseJson():
-    with open('../customer_data/overview.json') as customer_data:
+    with open('customer_data/overview.json') as customer_data:
         data = json.load(customer_data)
     return data
 
 #Find user dictionary based upon username. NOTE: Does not return username. Returns user dictionary
 def findUser(username, data=None):
     if data is None:
-        with open('../customer_data/overview.json') as customer_data:
+        with open('customer_data/overview.json') as customer_data:
             data = json.load(customer_data)
     for user in data['customers']:
         if user['username'] == username:
