@@ -147,6 +147,7 @@ def addNewCustomer(newCustomerData):
     with open('customer_data/overview.json', 'w') as customer_data:
         json.dump(data, customer_data)
 
+    return newCustomerData
 #Test function for gathering usernames
 # def printAllCxUsernames():
 #     with open('../customer_data/overview.json') as customer_data:

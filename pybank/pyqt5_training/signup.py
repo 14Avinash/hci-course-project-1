@@ -1,6 +1,7 @@
 import PyQt5.QtWidgets as qt_widgets
 import PyQt5.QtCore as qt_core
 import handlers.userhandler as user_handling
+import handlers.accounthandler as account_handling
 
 #Signup window class and functionality
 class Window_Signup(qt_widgets.QWidget):
@@ -40,6 +41,7 @@ class Window_Signup(qt_widgets.QWidget):
         self.buttonShowPassword.setGeometry(310, 100, 30, 25)
 
         #Add accounts using checkboxes
+        #Upload account CSV option
 
         #Signup button
         buttonLogin = qt_widgets.QPushButton('Signup', self)
@@ -91,9 +93,13 @@ class Window_Signup(qt_widgets.QWidget):
                 userData = {
                     'username': self.textUser.text(),
                     'password': self.textPassword.text(),
-                    'flags': {}
+                    'flags': {
+
+                    }
                 }
-                user_handling.addNewCustomer(userData)
+                userData = user_handling.addNewCustomer(userData)
+                if(user_handling.findChecking(userData)):
+                    account_handling.createChecking(user_handling.findUserDir(userData))
                 qt_widgets.QMessageBox.warning(self, 'Success', 'Signup Successful')
             else:
                 qt_widgets.QMessageBox.warning(self, 'Error', 'Username already taken')
