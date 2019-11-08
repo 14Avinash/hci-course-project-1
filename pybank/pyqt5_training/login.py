@@ -11,31 +11,54 @@ class Window(qt_widgets.QWidget):
         self.user_interface()
 
     def user_interface(self):
-        #Username and password entry
+        #Username Entry
         self.textUser = qt_widgets.QLineEdit(self)
         self.textUser.move(160, 50)
+        self.labelUser = qt_widgets.QLabel(self)
+        self.labelUser.setText('Username')
+        self.labelUser.move(160, 30)
+
+        #Password Entry
         self.textPassword = qt_widgets.QLineEdit(self)
         self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
-        self.textPassword.move(160, 80)
+        self.textPassword.move(160, 100)
+        self.labelPassword = qt_widgets.QLabel(self)
+        self.labelPassword.setText('Password')
+        self.labelPassword.move(160, 80)
 
         #Show Password Widget
-        buttonShowPassword = qt_widgets.QPushButton('i', self)
-        buttonShowPassword.installEventFilter(self)
-        buttonShowPassword.setGeometry(310, 80, 30, 25)
+        self.buttonShowPassword = qt_widgets.QPushButton('i', self)
+        self.buttonShowPassword.installEventFilter(self)
+        self.buttonShowPassword.setGeometry(310, 100, 30, 25)
 
         #Login button
         buttonLogin = qt_widgets.QPushButton('Login', self)
         buttonLogin.clicked.connect(self.check_login)
-        buttonLogin.move(190, 110)
+        buttonLogin.move(190, 130)
+
+        #Signup option
+        self.labelSignup = qt_widgets.QLabel(self)
+        self.labelSignup.setText('New to Pybank?')
+        self.labelSignup.move(150, 180)
+        self.buttonSignup = qt_widgets.QLabel(self)
+        self.buttonSignup.setText('Sign up')
+        self.buttonSignup.move(275, 180)
+        self.buttonSignup.installEventFilter(self)
 
         self.show()
 
-    #Handling show password event
+
     def eventFilter(self, obj, event):
-        if event.type() == qt_core.QEvent.MouseButtonPress:
-            self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
-        elif event.type() == qt_core.QEvent.MouseButtonRelease:
-            self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+        #Handling show password event
+        if obj == self.buttonShowPassword:
+            if event.type() == qt_core.QEvent.MouseButtonPress:
+                self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
+            elif event.type() == qt_core.QEvent.MouseButtonRelease:
+                self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+        #Call Signup page
+        elif obj == self.buttonSignup:
+            if event.type() == qt_core.QEvent.MouseButtonPress:
+                qt_widgets.QMessageBox.warning(self, 'Success', 'Sign up call')
         return False
 
     #Key handling functions
