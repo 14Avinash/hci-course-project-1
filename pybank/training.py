@@ -24,6 +24,7 @@ import sys
 # import pyqt5_training.list as window_with_list
 import pyqt5_training.login as window_with_login
 import pyqt5_training.signup as window_with_signup
+import globalvars.variables as stack
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -31,7 +32,9 @@ def main():
     # Create the PyQt5 application
     app = qt_widgets.QApplication(sys.argv)
     # Create an instance of the main application window
-    win = window_with_login.Window_Login()
+    stack.windowStack.append(window_with_login.Window_Login())
+    stack.windowStack.append(window_with_signup.Window_Signup())
+    # win = window_with_signup.Window_Signup()
     # win.start()  # when uncommented, starts the timer automatically
     # Exit the application
     sys.exit(app.exec_())
