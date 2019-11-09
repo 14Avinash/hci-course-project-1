@@ -1,6 +1,8 @@
 import PyQt5.QtWidgets as qt_widgets
 import PyQt5.QtCore as qt_core
 import handlers.userhandler as user_handling
+import globalvars.variables as stack
+import pyqt5_training.signup as signup
 
 #Login window class and functionality
 class Window_Login(qt_widgets.QWidget):
@@ -42,6 +44,7 @@ class Window_Login(qt_widgets.QWidget):
         self.labelSignup.move(150, 180)
         self.buttonSignup = qt_widgets.QLabel(self)
         self.buttonSignup.setText('Sign up')
+        self.buttonSignup.setStyleSheet("color: blue;")
         self.buttonSignup.move(275, 180)
         self.buttonSignup.installEventFilter(self)
 
@@ -58,7 +61,8 @@ class Window_Login(qt_widgets.QWidget):
         #Call Signup page
         elif obj == self.buttonSignup:
             if event.type() == qt_core.QEvent.MouseButtonPress:
-                qt_widgets.QMessageBox.warning(self, 'Success', 'Sign up call')
+                self.hide()
+                stack.windowStack[1].show()
         return False
 
     #Key handling functions
