@@ -2,7 +2,7 @@ import PyQt5.QtWidgets as qt_widgets
 import PyQt5.QtCore as qt_core
 import handlers.userhandler as user_handling
 import globalvars.variables as stack
-import pyqt5_training.signup as signup
+import pyqt5_training.account_overview as overview
 
 #Login window class and functionality
 class Window_Login(qt_widgets.QWidget):
@@ -78,7 +78,8 @@ class Window_Login(qt_widgets.QWidget):
         userData = user_handling.findUser(self.textUser.text().lower())
         if(userData is not None):
             if(self.textPassword.text() == user_handling.findPassword(userData)):
-                qt_widgets.QMessageBox.warning(self, 'Success', 'Login Successful')
+                self.hide()
+                stack.windowStack[2].user_interface(userData)
             else:
                 qt_widgets.QMessageBox.warning(self, 'Error', 'Incorrect password')
         else:
