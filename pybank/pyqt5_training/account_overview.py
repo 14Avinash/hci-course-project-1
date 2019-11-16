@@ -9,6 +9,7 @@ class Window_Overview(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Using Overview')
+        self.setProperty('Main_Window', True)
         self.setGeometry(50, 50, 1000, 500)
 
     def user_interface(self, userData):

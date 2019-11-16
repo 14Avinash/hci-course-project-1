@@ -1,0 +1,45 @@
+QWidget{
+  background-color: #180f20;
+}
+
+QGroupBox{
+  alignment: center;
+}
+
+QPushButton[Info=true]{
+  max-width: 2em;
+}
+
+QPushButton{
+  background-color: #bb86fc;
+  font: bold 14px;
+  color: #000000;
+}
+
+QPushButton:pressed {
+  background-color: #8858c8;
+  font: bold 14px;
+  color: #ffffff;
+}
+
+QLineEdit{
+  background-color: #695f72;
+  color: #ffffff;
+}
+
+QLabel{
+  color: #ffffff;
+}
+
+QLabel[Hidden=true]{
+  color: #180f20;
+}
+
+QLabel[Link=true]{
+  color: #ae52d4;
+  text-decoration: underline;
+}
+
+QCheckBox{
+  color: #ffffff;
+}
