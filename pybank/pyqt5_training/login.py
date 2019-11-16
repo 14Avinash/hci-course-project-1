@@ -10,46 +10,63 @@ class Window_Login(qt_widgets.QWidget):
         super().__init__()
         self.setWindowTitle('Using Login')
         self.setGeometry(50, 50, 500, 500)
+        self.setProperty('Main_Window', True)
         self.user_interface()
 
     def user_interface(self):
+        #Create grid
+        self.layout = qt_widgets.QGridLayout()
+
+        # Set the stretch
+        self.layout.setColumnStretch(0, 3)
+        self.layout.setColumnStretch(5, 3)
+        self.layout.setRowStretch(0, 1)
+        self.layout.setRowStretch(7, 1)
+
         #Username Entry
         self.textUser = qt_widgets.QLineEdit(self)
-        self.textUser.move(160, 50)
         self.labelUser = qt_widgets.QLabel(self)
         self.labelUser.setText('Username')
-        self.labelUser.move(160, 30)
+        self.layout.addWidget(self.labelUser, 1, 1)
+        self.layout.addWidget(self.textUser, 2, 1, 1, 3)
 
         #Password Entry
         self.textPassword = qt_widgets.QLineEdit(self)
         self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
-        self.textPassword.move(160, 100)
         self.labelPassword = qt_widgets.QLabel(self)
         self.labelPassword.setText('Password')
-        self.labelPassword.move(160, 80)
+        self.layout.addWidget(self.labelPassword, 3, 1)
+        self.layout.addWidget(self.textPassword, 4, 1, 1, 3)
 
-        #Show Password Widget
+        #FOR ALIGNMENT
+        self.labelAlignment2 = qt_widgets.QLabel(self)
+        self.labelAlignment2.setText('New to Pybank?')
+        self.labelAlignment2.setProperty('Hidden', True)
+        self.layout.addWidget(self.labelAlignment2, 5, 3, 1, 2)
+
         self.buttonShowPassword = qt_widgets.QPushButton('i', self)
+        self.buttonShowPassword.setProperty('Info', True)
         self.buttonShowPassword.installEventFilter(self)
-        self.buttonShowPassword.setGeometry(310, 100, 30, 25)
+        self.layout.addWidget(self.buttonShowPassword, 4, 4, 1, 1)
 
         #Login button
-        buttonLogin = qt_widgets.QPushButton('Login', self)
-        buttonLogin.clicked.connect(self.check_login)
-        buttonLogin.move(190, 130)
+        self.buttonLogin = qt_widgets.QPushButton('Login', self)
+        self.buttonLogin.clicked.connect(self.check_login)
+        self.layout.addWidget(self.buttonLogin, 6, 3, 1, 1)
 
         #Signup option
         self.labelSignup = qt_widgets.QLabel(self)
         self.labelSignup.setText('New to Pybank?')
-        self.labelSignup.move(150, 180)
+        self.layout.addWidget(self.labelSignup, 7, 1, 1, 2)
         self.buttonSignup = qt_widgets.QLabel(self)
+        self.buttonSignup.setProperty('Link', True)
         self.buttonSignup.setText('Sign up')
-        self.buttonSignup.setStyleSheet("color: blue;")
-        self.buttonSignup.move(275, 180)
+        self.layout.addWidget(self.buttonSignup, 7, 3, 1, 1, qt_core.Qt.AlignCenter)
         self.buttonSignup.installEventFilter(self)
 
-        self.show()
+        self.setLayout(self.layout)
 
+        self.show()
 
     def eventFilter(self, obj, event):
         #Handling show password event
