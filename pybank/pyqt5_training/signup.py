@@ -56,37 +56,44 @@ class Widget_Signup_User(qt_widgets.QWidget):
         # Set the stretch
         self.layout.setColumnStretch(0, 3)
         self.layout.setColumnStretch(5, 3)
-        self.layout.setRowStretch(0, 1)
-        self.layout.setRowStretch(9, 1)
+        self.layout.setRowStretch(0, 2)
+        self.layout.setRowStretch(2, 1)
+        self.layout.setRowStretch(11, 2)
+
+        self.progress = qt_widgets.QProgressBar(self)
+        self.progress.setGeometry(30, 40, 200, 25)
+        self.progress.setRange(0, 100)
+        self.progress.setValue(0)
+        self.layout.addWidget(self.progress, 1, 1, 1, 3)
 
         #Username Entry
         self.textUser = qt_widgets.QLineEdit(self)
         self.labelUser = qt_widgets.QLabel(self)
         self.labelUser.setText('Username')
-        self.layout.addWidget(self.labelUser, 1, 1)
-        self.layout.addWidget(self.textUser, 2, 1, 1, 3)
+        self.layout.addWidget(self.labelUser, 3, 1)
+        self.layout.addWidget(self.textUser, 4, 1, 1, 3)
 
         #Password Entry
         self.textPassword = qt_widgets.QLineEdit(self)
         self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
         self.labelPassword = qt_widgets.QLabel(self)
         self.labelPassword.setText('Password')
-        self.layout.addWidget(self.labelPassword, 3, 1)
-        self.layout.addWidget(self.textPassword, 4, 1, 1, 3)
+        self.layout.addWidget(self.labelPassword, 5, 1)
+        self.layout.addWidget(self.textPassword, 6, 1, 1, 3)
 
         #Confirm password
         self.textPasswordConfirm = qt_widgets.QLineEdit(self)
         self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Password)
         self.labelPasswordConfirm = qt_widgets.QLabel(self)
         self.labelPasswordConfirm.setText('Confirm Password')
-        self.layout.addWidget(self.labelPasswordConfirm, 5, 1)
-        self.layout.addWidget(self.textPasswordConfirm, 6, 1, 1, 3)
+        self.layout.addWidget(self.labelPasswordConfirm, 7, 1)
+        self.layout.addWidget(self.textPasswordConfirm, 8, 1, 1, 3)
 
         # #Show Password Widget
         self.buttonShowPassword = qt_widgets.QPushButton('i', self)
         self.buttonShowPassword.setProperty('Info', True)
         self.buttonShowPassword.installEventFilter(self)
-        self.layout.addWidget(self.buttonShowPassword, 4, 4, 1, 1)
+        self.layout.addWidget(self.buttonShowPassword, 6, 4, 1, 1)
 
         # #Add accounts using checkboxes
         # self.labelAccounts = qt_widgets.QLabel(self)
@@ -97,23 +104,23 @@ class Widget_Signup_User(qt_widgets.QWidget):
 
         #Signup button
         self.buttonSignup = qt_widgets.QPushButton('Next', self)
-        self.layout.addWidget(self.buttonSignup, 8, 1, 1, 3, qt_core.Qt.AlignRight)
+        self.layout.addWidget(self.buttonSignup, 10, 1, 1, 3, qt_core.Qt.AlignRight)
 
         #Login option
         self.labelSignin = qt_widgets.QLabel(self)
         self.labelSignin.setText('Already have an account?')
-        self.layout.addWidget(self.labelSignin, 9, 1, 1, 1)
+        self.layout.addWidget(self.labelSignin, 11, 1, 1, 1)
         self.buttonLogin = qt_widgets.QLabel(self)
         self.buttonLogin.setProperty('Link', True)
         self.buttonLogin.setText('Login')
-        self.layout.addWidget(self.buttonLogin, 9, 3, 1, 1, qt_core.Qt.AlignCenter)
+        self.layout.addWidget(self.buttonLogin, 11, 3, 1, 1, qt_core.Qt.AlignCenter)
         self.buttonLogin.installEventFilter(self)
 
         #FOR ALIGNMENT
         self.labelAlignment2 = qt_widgets.QLabel(self)
         self.labelAlignment2.setText('Alr')
         self.labelAlignment2.setProperty('Hidden', True)
-        self.layout.addWidget(self.labelAlignment2, 7, 2, 1, 2)
+        self.layout.addWidget(self.labelAlignment2, 9, 2, 1, 2)
 
         self.setLayout(self.layout)
 
@@ -168,18 +175,32 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         # Set the stretch
         self.layout.setColumnStretch(0, 3)
         self.layout.setColumnStretch(5, 3)
-        self.layout.setRowStretch(0, 1)
-        self.layout.setRowStretch(9, 1)
+        self.layout.setRowStretch(0, 2)
+        self.layout.setRowStretch(2, 1)
+        self.layout.setRowStretch(9, 2)
 
-        #Checking Entry
-        self.textUser = qt_widgets.QLineEdit(self)
-        self.labelUser = qt_widgets.QLabel(self)
-        self.labelUser.setText('Add Checking')
+        #Progress Bar
+        self.progress = qt_widgets.QProgressBar(self)
+        self.progress.setGeometry(30, 40, 200, 25)
+        self.progress.setRange(0, 100)
+        self.progress.setValue(25)
+        self.layout.addWidget(self.progress, 1, 1, 1, 3)
 
-        self.checking = qt_widgets.QCheckBox('Checking', self)
+        #Checking Entry Group Box
+        self.exclusiveGroup = qt_widgets.QGroupBox("Add Checking")
+        self.layout.addWidget(self.exclusiveGroup, 3, 1, 1, 3)
 
-        self.layout.addWidget(self.labelUser, 1, 1)
-        self.layout.addWidget(self.checking, 2, 1, 1, 3)
+        vbox = qt_widgets.QVBoxLayout()
+        self.exclusiveGroup.setLayout(vbox)
+
+        #Box items
+        self.checking = qt_widgets.QCheckBox('I do not wish to add a checking account', self)
+        vbox.addWidget(self.checking)
+        radiobutton = qt_widgets.QRadioButton("Sync Account")
+        vbox.addWidget(radiobutton)
+        radiobutton = qt_widgets.QRadioButton("Add Account Manually")
+        vbox.addWidget(radiobutton)
+
 
         #Signup button
         self.buttonSignup = qt_widgets.QPushButton('Signup', self)
@@ -207,7 +228,7 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.show()
 
     def makeChecking(self, userData):
-        userData['flags']['checking'] = self.checking.isChecked()
+        userData['flags']['checking'] = not self.checking.isChecked()
         return userData
 
     def eventFilter(self, obj, event):

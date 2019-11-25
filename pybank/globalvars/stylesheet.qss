@@ -40,6 +40,39 @@ QLabel[Link=true]{
   text-decoration: underline;
 }
 
+QLabel[Title=true]{
+  font-size: 30px;
+}
+
 QCheckBox{
   color: #ffffff;
+}
+
+QCheckBox::indicator{
+  color: #ffffff;
+  border: 1px solid #695f72;
+}
+
+QRadioButton{
+  color: #ffffff;
+}
+
+QRadioButton::indicator::unchecked{
+  border: 1px solid #695f72;
+  border-radius: 7px;
+}
+
+QGroupBox{
+  color: #ffffff;
+}
+
+QProgressBar{
+  border-radius: 5px;
+  text-align: center;
+  background-color: #3e3547;
+}
+
+QProgressBar::chunk{
+  background-color: #efb7ff;
+  border-radius: 5px;
 }
