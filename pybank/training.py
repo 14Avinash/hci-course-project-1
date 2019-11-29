@@ -10,19 +10,20 @@
 import sys
 
 # Imports used with the pyqt5_training package
-# import pyqt5_training.window as window_simple
-# import pyqt5_training.label as window_with_labels
-# import pyqt5_training.button as window_with_buttons
-# import pyqt5_training.line_edit as window_with_line_edits
-# import pyqt5_training.image as window_with_image
-# import pyqt5_training.check_box as window_with_check_boxes
-# import pyqt5_training.combo_box as window_with_combo_boxes
-# import pyqt5_training.radio_button as window_with_radio_buttons
-# import pyqt5_training.message_box as window_with_message_box
-# import pyqt5_training.spin_box as window_with_spin_box
-# import pyqt5_training.text_editor as window_with_text_editor
-# import pyqt5_training.timer as window_with_timer
-import pyqt5_training.list as window_with_list
+# import pyqt5_training.basic_widgets.window as window_simple
+# import pyqt5_training.basic_widgets.label as window_with_labels
+# import pyqt5_training.basic_widgets.button as window_with_buttons
+# import pyqt5_training.basic_widgets.line_edit as window_with_line_edits
+# import pyqt5_training.basic_widgets.image as window_with_image
+# import pyqt5_training.basic_widgets.check_box as window_with_check_boxes
+# import pyqt5_training.basic_widgets.combo_box as window_with_combo_boxes
+# import pyqt5_training.basic_widgets.radio_button as window_with_radio_buttons
+# import pyqt5_training.basic_widgets.message_box as window_with_message_box
+# import pyqt5_training.basic_widgets.spin_box as window_with_spin_box
+# import pyqt5_training.basic_widgets.text_editor as window_with_text_editor
+# import pyqt5_training.basic_widgets.timer as window_with_timer
+# import pyqt5_training.basic_widgets.list as window_with_list
+import rock_paper_scissors.rps_game as rps
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -31,7 +32,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = window_with_list.Window()
+    win = rps.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
