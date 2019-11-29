@@ -1,0 +1,86 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[linktoc=all]{hyperref}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{lmodern}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{parallel}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage[dvipsnames, table]{xcolor}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\newcommand\sectionbreak{\clearpage}
+\usepackage{placeins}
+
+\title{\textbf{Human-Computer Interaction} \\ \Large{CS 420/620} \\ \large{Project Part 3: Design} \vspace{+16ex}}
+
+\author{\textbf{\Large Team 01: PyBank} \\ \large{Brianna Blain-Castelli and Nikkolas Irwin}}
+\date{\vspace{-2ex} \large{November 15, 2019}}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    \vspace{+16ex}
+    {\textbf{\Large{Department of Computer Science and Engineering}} \\
+    \large{College of Engineering, University of Nevada, Reno} \\
+    \large{Course Instructor: Dr. Sergiu Dascalu}}
+\end{center}
+
+\pagenumbering{gobble}
+\newpage
+
+\pagenumbering{roman}
+\tableofcontents
+
+\newpage
+\setlength{\cftfigindent}{0pt}  % remove indentation from figures in lof
+% \setlength{\cfttabindent}{0pt}  % remove indentation from tables in lot
+\listoffigures
+% \listoftables
+
+\newpage
+
+\doublespacing
+\pagenumbering{arabic}
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/abstract.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/high_level_design.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/static_interface_design.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/alternative_design.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/annotated_references.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/contributions.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+\newpage
+%-----------------------------------START-----OF-----SECTION--------------------------------%
+\input{sections/references.tex}
+%-----------------------------------END-----OF-----SECTION----------------------------------%
+
+\end{document}
