@@ -9,7 +9,7 @@ import pyqt5_global.variables as stack
 class Window_Login(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Using Login')
+        self.setWindowTitle('PyBank')
         self.setGeometry(50, 50, 500, 500)
         self.setProperty('Main_Window', True)
         self.user_interface()
@@ -25,7 +25,7 @@ class Window_Login(qt_widgets.QWidget):
         self.layout.setRowStretch(9, 1)
 
         #Logo info
-        self.img = qt_gui.QPixmap("assets/logo.png")
+        self.img = qt_gui.QPixmap("assets/icons8-snake-64.png")
         self.labelLogo = qt_widgets.QLabel(self)
         self.labelLogo.setPixmap(self.img)
         self.layout.addWidget(self.labelLogo, 1, 1, 1, 3, qt_core.Qt.AlignCenter)
