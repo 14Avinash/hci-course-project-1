@@ -2,36 +2,37 @@
 
 # Written By: Brianna Blain-Castelli and Nikkolas Irwin
 # Date: 10/23/2019
-# File: training.py
-# Purpose: A module that allows PyQt5 widgets to be individually tested and understood.
-# Description: Contains the main program logic to run individual widgets (based on which import statement is
-# uncommented) and displays them in an interactive GUI window.
+# File: main.py
+# Purpose: The driver module for PyBank, our interactive GUI-based desktop client banking application.
+# Description: Contains the main program logic to run our program until the user exits.
 
+# System libraries, QtWidgets, QSS
 import sys
-
-# Imports used with the pyqt5_training package
-# import pyqt5_training.window as window_simple
-# import pyqt5_training.label as window_with_labels
-# import pyqt5_training.button as window_with_buttons
-# import pyqt5_training.line_edit as window_with_line_edits
-# import pyqt5_training.image as window_with_image
-# import pyqt5_training.check_box as window_with_check_boxes
-# import pyqt5_training.combo_box as window_with_combo_boxes
-# import pyqt5_training.radio_button as window_with_radio_buttons
-# import pyqt5_training.message_box as window_with_message_box
-# import pyqt5_training.spin_box as window_with_spin_box
-# import pyqt5_training.text_editor as window_with_text_editor
-# import pyqt5_training.timer as window_with_timer
-import pyqt5_training.list as window_with_list
 import PyQt5.QtWidgets as qt_widgets
+import handlers.stylesheethandler as stylesheets
+
+# PyBank specific window imports
+import pybank.login as window_with_login
+import pybank.signup as window_with_signup
+import pybank.account_overview as window_with_overview
+
+# Global variables for the window management, style management
+import pyqt5_global.variables as gbl_vars
 
 
 def main():
     # Create the PyQt5 application
     app = qt_widgets.QApplication(sys.argv)
 
+    # Select StyleSheet
+    stylesheets.readQSS()
+    app.setStyleSheet(gbl_vars.stylesheet)
+
     # Create an instance of the main application window
-    win = window_with_list.Window()
+    gbl_vars.windowStack.append(window_with_login.Window_Login())
+    gbl_vars.windowStack.append(window_with_signup.Window_Signup())
+    gbl_vars.windowStack.append(window_with_overview.Window_Overview())
+    # win = window_with_signup.Window_Signup()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application

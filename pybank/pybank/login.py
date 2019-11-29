@@ -2,8 +2,8 @@ import PyQt5.QtWidgets as qt_widgets
 import PyQt5.QtCore as qt_core
 import PyQt5.QtGui as qt_gui
 import handlers.userhandler as user_handling
-import globalvars.variables as stack
-import pyqt5_training.account_overview as overview
+import pyqt5_global.variables as stack
+
 
 #Login window class and functionality
 class Window_Login(qt_widgets.QWidget):

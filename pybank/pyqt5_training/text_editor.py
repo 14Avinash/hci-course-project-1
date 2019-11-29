@@ -1,6 +1,7 @@
 import sys
 import PyQt5.QtWidgets as qt_widgets
 
+
 class Window(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()

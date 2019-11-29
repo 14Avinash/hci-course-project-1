@@ -5,6 +5,7 @@ import PyQt5.QtGui as qt_gui
 # Set the font family and font size
 font = qt_gui.QFont('Times', 11)
 
+
 class Window(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()

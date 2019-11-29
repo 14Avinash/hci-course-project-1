@@ -4,6 +4,7 @@ import PyQt5.QtGui as qt_gui
 
 spin_box_font = qt_gui.QFont('Times', 16)
 
+
 class Window(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()

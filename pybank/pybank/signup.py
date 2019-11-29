@@ -2,7 +2,7 @@ import PyQt5.QtWidgets as qt_widgets
 import PyQt5.QtCore as qt_core
 import handlers.userhandler as user_handling
 import handlers.accounthandler as account_handling
-import globalvars.variables as stack
+import pyqt5_global.variables as stack
 
 #Signup window class and functionality
 class Window_Signup(qt_widgets.QMainWindow):
