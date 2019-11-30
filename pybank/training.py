@@ -27,7 +27,8 @@ import sys
 # import pyqt5_training.advanced_widgets.horizontal_box_layout as h_box_layout
 # import pyqt5_training.advanced_widgets.vertical_box_layout as v_box_layout
 # import pyqt5_training.advanced_widgets.layouts_together as merged_layout
-import  pyqt5_training.advanced_widgets.form_layout as form_layout
+# import pyqt5_training.advanced_widgets.form_layout as form_layout
+import pyqt5_training.advanced_widgets.slider as slider
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -36,7 +37,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = form_layout.Window()
+    win = slider.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
