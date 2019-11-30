@@ -11,6 +11,7 @@ class Window(qt_widgets.QWidget):
 
     def user_interface(self):
         h_box = qt_widgets.QHBoxLayout()
+
         btn_1 = qt_widgets.QPushButton("Button 1")
         btn_2 = qt_widgets.QPushButton("Button 2")
         btn_3 = qt_widgets.QPushButton("Button 3")
