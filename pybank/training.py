@@ -23,7 +23,8 @@ import sys
 # import pyqt5_training.basic_widgets.text_editor as window_with_text_editor
 # import pyqt5_training.basic_widgets.timer as window_with_timer
 # import pyqt5_training.basic_widgets.list as window_with_list
-import rock_paper_scissors.rps_game as rps
+# import rock_paper_scissors.rps_game as rps
+import pyqt5_training.advanced_widgets.horizontal_box_layout as hbox
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -32,7 +33,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = rps.Window()
+    win = hbox.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
