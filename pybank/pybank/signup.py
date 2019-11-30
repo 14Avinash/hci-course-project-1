@@ -4,11 +4,12 @@ import handlers.userhandler as user_handling
 import handlers.accounthandler as account_handling
 import pyqt5_global.variables as stack
 
-#Signup window class and functionality
+
+# Signup window class and functionality
 class Window_Signup(qt_widgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Using Signup')
+        self.setWindowTitle('Sign-up')
         self.setGeometry(50, 50, 500, 500)
         self.setProperty('Main_Window', True)
         self.current_widget = qt_widgets.QStackedWidget()
@@ -112,7 +113,7 @@ class Widget_Signup_User(qt_widgets.QWidget):
         self.layout.addWidget(self.labelSignin, 11, 1, 1, 1)
         self.buttonLogin = qt_widgets.QLabel(self)
         self.buttonLogin.setProperty('Link', True)
-        self.buttonLogin.setText('Login')
+        self.buttonLogin.setText('Sign-in')
         self.layout.addWidget(self.buttonLogin, 11, 3, 1, 1, qt_core.Qt.AlignCenter)
         self.buttonLogin.installEventFilter(self)
 

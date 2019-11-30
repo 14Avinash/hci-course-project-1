@@ -61,7 +61,7 @@ class Window_Login(qt_widgets.QWidget):
         self.layout.addWidget(self.buttonShowPassword, 6, 4, 1, 1)
 
         #Login button
-        self.buttonLogin = qt_widgets.QPushButton('Login', self)
+        self.buttonLogin = qt_widgets.QPushButton('Sign-in', self)
         self.buttonLogin.clicked.connect(self.check_login)
         self.layout.addWidget(self.buttonLogin, 8, 3, 1, 1)
 
@@ -71,7 +71,7 @@ class Window_Login(qt_widgets.QWidget):
         self.layout.addWidget(self.labelSignup, 9, 1, 1, 2)
         self.buttonSignup = qt_widgets.QLabel(self)
         self.buttonSignup.setProperty('Link', True)
-        self.buttonSignup.setText('Sign up')
+        self.buttonSignup.setText('Sign-up')
         self.layout.addWidget(self.buttonSignup, 9, 3, 1, 1, qt_core.Qt.AlignCenter)
         self.buttonSignup.installEventFilter(self)
 
