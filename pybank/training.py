@@ -30,7 +30,8 @@ import sys
 # import pyqt5_training.advanced_widgets.form_layout as form_layout
 # import pyqt5_training.advanced_widgets.slider as slider
 # import pyqt5_training.advanced_widgets.table as tbl
-import  pyqt5_training.advanced_widgets.tab as tab
+# import  pyqt5_training.advanced_widgets.tab as tab
+import pyqt5_training.advanced_widgets.menu as menu
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -39,7 +40,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = tab.Window()
+    win = menu.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
