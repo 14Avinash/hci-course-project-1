@@ -32,7 +32,8 @@ import sys
 # import pyqt5_training.advanced_widgets.table as tbl
 # import  pyqt5_training.advanced_widgets.tab as tab
 # import pyqt5_training.advanced_widgets.menu as menu
-import  pyqt5_training.advanced_widgets.grid_layout as grid_layout
+# import pyqt5_training.advanced_widgets.grid_layout as grid_layout
+import pyqt5_training.advanced_widgets.progress_bar as progress_bar
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -41,7 +42,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = grid_layout.Window()
+    win = progress_bar.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
