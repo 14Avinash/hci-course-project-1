@@ -31,7 +31,8 @@ import sys
 # import pyqt5_training.advanced_widgets.slider as slider
 # import pyqt5_training.advanced_widgets.table as tbl
 # import  pyqt5_training.advanced_widgets.tab as tab
-import pyqt5_training.advanced_widgets.menu as menu
+# import pyqt5_training.advanced_widgets.menu as menu
+import  pyqt5_training.advanced_widgets.grid_layout as grid_layout
 import PyQt5.QtWidgets as qt_widgets
 
 
@@ -40,7 +41,7 @@ def main():
     app = qt_widgets.QApplication(sys.argv)
 
     # Create an instance of the main application window
-    win = menu.Window()
+    win = grid_layout.Window()
     # win.start()  # when uncommented, starts the timer automatically
 
     # Exit the application
