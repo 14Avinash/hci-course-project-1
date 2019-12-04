@@ -24,9 +24,16 @@ class Window_Signup(qt_widgets.QMainWindow):
             self.step2_widget = Widget_Signup_Checking(self)
             self.current_widget.addWidget(self.step2_widget)
             self.current_widget.setCurrentWidget(self.step2_widget)
-            self.step2_widget.buttonSignup.clicked.connect(self.signup)
-    def signup(self):
+            self.step2_widget.buttonNext.clicked.connect(self.to_savings)
+    def to_savings(self):
         self.user = self.step2_widget.makeChecking(self.user)
+
+        self.step3_widget = Widget_Signup_Savings(self)
+        self.current_widget.addWidget(self.step3_widget)
+        self.current_widget.setCurrentWidget(self.step3_widget)
+        self.step3_widget.buttonSignup.clicked.connect(self.signup)
+    def signup(self):
+        self.user = self.step3_widget.makeSavings(self.user)
         user_handling.addNewCustomer(self.user)
         if(user_handling.findChecking(self.user)):
             account_handling.createChecking(user_handling.findDir(self.user))
@@ -205,7 +212,7 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.progress = qt_widgets.QProgressBar(self)
         self.progress.setGeometry(30, 40, 200, 25)
         self.progress.setRange(0, 100)
-        self.progress.setValue(25)
+        self.progress.setValue(33)
         self.layout.addWidget(self.progress, 1, 1, 1, 3)
 
         #Checking Entry Group Box
@@ -223,6 +230,98 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.checking = qt_widgets.QCheckBox('I do not wish to add a checking account', self)
         vboxOuter.addWidget(self.checking)
         self.checking.stateChanged.connect(self.toggleGroupBox)
+        self.radiobutton1 = qt_widgets.QRadioButton("Sync Account")
+        vbox.addWidget(self.radiobutton1)
+        self.radiobutton2 = qt_widgets.QRadioButton("Add Account Manually")
+        vbox.addWidget(self.radiobutton2)
+        vboxOuter.addWidget(self.exclusiveGroup)
+
+
+        #Signup button
+        self.buttonNext = qt_widgets.QPushButton('Next', self)
+        # self.buttonSignup.clicked.connect(self.check_login)
+        self.layout.addWidget(self.buttonNext, 8, 1, 1, 3, qt_core.Qt.AlignRight)
+
+        #Login option
+        self.labelSignin = qt_widgets.QLabel(self)
+        self.labelSignin.setText('Already have an account?')
+        self.layout.addWidget(self.labelSignin, 9, 1, 1, 1)
+        self.buttonLogin = qt_widgets.QLabel(self)
+        self.buttonLogin.setProperty('Link', True)
+        self.buttonLogin.setText('Login')
+        self.layout.addWidget(self.buttonLogin, 9, 3, 1, 1, qt_core.Qt.AlignCenter)
+        self.buttonLogin.installEventFilter(self)
+
+        #FOR ALIGNMENT
+        self.labelAlignment2 = qt_widgets.QLabel(self)
+        self.labelAlignment2.setText('Alr')
+        self.labelAlignment2.setProperty('Hidden', True)
+        self.layout.addWidget(self.labelAlignment2, 7, 2, 1, 2)
+
+        self.setLayout(self.layout)
+
+        self.show()
+    def toggleGroupBox(self):
+        if self.checking.isChecked():
+            self.exclusiveGroup.setEnabled(False)
+        else:
+            self.exclusiveGroup.setEnabled(True)
+
+    def makeChecking(self, userData):
+        userData['flags']['checking'] = not self.checking.isChecked()
+        return userData
+
+    def eventFilter(self, obj, event):
+        if event.type() == qt_core.QEvent.MouseButtonPress:
+            print(obj)
+        #Call Login page
+        if obj == self.buttonLogin:
+            if event.type() == qt_core.QEvent.MouseButtonPress:
+                self.parent.backLogin()
+                stack.windowStack[0].show()
+        return False
+
+
+#Signup page savings
+class Widget_Signup_Savings(qt_widgets.QWidget):
+    def __init__(self, parent):
+        super().__init__()
+        self.user_interface()
+        self.parent = parent
+
+    def user_interface(self):
+        #Create grid
+        self.layout = qt_widgets.QGridLayout()
+
+        # Set the stretch
+        self.layout.setColumnStretch(0, 3)
+        self.layout.setColumnStretch(5, 3)
+        self.layout.setRowStretch(0, 2)
+        self.layout.setRowStretch(2, 1)
+        self.layout.setRowStretch(9, 2)
+
+        #Progress Bar
+        self.progress = qt_widgets.QProgressBar(self)
+        self.progress.setGeometry(30, 40, 200, 25)
+        self.progress.setRange(0, 100)
+        self.progress.setValue(66)
+        self.layout.addWidget(self.progress, 1, 1, 1, 3)
+
+        #Checking Entry Group Box
+        self.outerGroup = qt_widgets.QGroupBox("Add Savings")
+        self.exclusiveGroup = qt_widgets.QGroupBox("")
+        self.layout.addWidget(self.outerGroup, 3, 1, 1, 3)
+
+        vboxOuter = qt_widgets.QVBoxLayout()
+        self.outerGroup.setLayout(vboxOuter)
+
+        vbox = qt_widgets.QVBoxLayout()
+        self.exclusiveGroup.setLayout(vbox)
+
+        #Box items
+        self.savings = qt_widgets.QCheckBox('I do not wish to add a savings account', self)
+        vboxOuter.addWidget(self.savings)
+        self.savings.stateChanged.connect(self.toggleGroupBox)
         self.radiobutton1 = qt_widgets.QRadioButton("Sync Account")
         vbox.addWidget(self.radiobutton1)
         self.radiobutton2 = qt_widgets.QRadioButton("Add Account Manually")
@@ -254,14 +353,15 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.setLayout(self.layout)
 
         self.show()
+
     def toggleGroupBox(self):
-        if self.checking.isChecked():
+        if self.savings.isChecked():
             self.exclusiveGroup.setEnabled(False)
         else:
             self.exclusiveGroup.setEnabled(True)
 
-    def makeChecking(self, userData):
-        userData['flags']['checking'] = not self.checking.isChecked()
+    def makeSavings(self, userData):
+        userData['flags']['savings'] = not self.savings.isChecked()
         return userData
 
     def eventFilter(self, obj, event):
