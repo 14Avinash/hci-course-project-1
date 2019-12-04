@@ -36,11 +36,6 @@ class Window(qt_widgets.QWidget):
         second_inner_h_box.addWidget(first_name_input)
         second_inner_h_box.addWidget(last_name_input)
 
-        # Add the widgets to the form layout
-        form_layout.addRow(name_lbl, second_inner_h_box)
-        form_layout.addRow(passw_lbl, passw_input)
-        form_layout.addRow(first_inner_h_box)
-
         # The code below shows one way to add the 'Enter' and 'Exit' buttons but it is NOT ideal...
         # ...DONT USE - form_layout.addRow(qt_widgets.QPushButton("Enter"), qt_widgets.QPushButton("Exit"))
 

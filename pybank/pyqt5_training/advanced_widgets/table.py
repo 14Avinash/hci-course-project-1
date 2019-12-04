@@ -1,5 +1,5 @@
 import sys
-import  PyQt5.QtWidgets as qt_widgets
+import PyQt5.QtWidgets as qt_widgets
 
 
 class Window(qt_widgets.QWidget):
