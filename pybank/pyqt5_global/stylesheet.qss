@@ -52,10 +52,7 @@ QCheckBox{
   color: #ffffff;
 }
 
-QCheckBox::indicator{
-  color: #ffffff;
-  border: 1px solid #695f72;
-}
+
 
 QRadioButton{
   color: #ffffff;
@@ -63,7 +60,6 @@ QRadioButton{
 
 QRadioButton::indicator::unchecked{
   border: 1px solid #695f72;
-  border-radius: 7px;
 }
 
 QGroupBox{

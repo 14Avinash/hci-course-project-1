@@ -209,19 +209,25 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.layout.addWidget(self.progress, 1, 1, 1, 3)
 
         #Checking Entry Group Box
-        self.exclusiveGroup = qt_widgets.QGroupBox("Add Checking")
-        self.layout.addWidget(self.exclusiveGroup, 3, 1, 1, 3)
+        self.outerGroup = qt_widgets.QGroupBox("Add Checking")
+        self.exclusiveGroup = qt_widgets.QGroupBox("")
+        self.layout.addWidget(self.outerGroup, 3, 1, 1, 3)
+
+        vboxOuter = qt_widgets.QVBoxLayout()
+        self.outerGroup.setLayout(vboxOuter)
 
         vbox = qt_widgets.QVBoxLayout()
         self.exclusiveGroup.setLayout(vbox)
 
         #Box items
         self.checking = qt_widgets.QCheckBox('I do not wish to add a checking account', self)
-        vbox.addWidget(self.checking)
+        vboxOuter.addWidget(self.checking)
+        self.checking.stateChanged.connect(self.toggleGroupBox)
         radiobutton = qt_widgets.QRadioButton("Sync Account")
         vbox.addWidget(radiobutton)
         radiobutton = qt_widgets.QRadioButton("Add Account Manually")
         vbox.addWidget(radiobutton)
+        vboxOuter.addWidget(self.exclusiveGroup)
 
 
         #Signup button
@@ -248,6 +254,11 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.setLayout(self.layout)
 
         self.show()
+    def toggleGroupBox(self):
+        if self.checking.isChecked():
+            self.exclusiveGroup.setEnabled(False)
+        else:
+            self.exclusiveGroup.setEnabled(True)
 
     def makeChecking(self, userData):
         userData['flags']['checking'] = not self.checking.isChecked()
