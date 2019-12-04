@@ -1,5 +1,6 @@
 QWidget{
   background-color: #180f20;
+  font-family: "Helvetica", "Courier";
 }
 
 QGroupBox{
@@ -8,6 +9,9 @@ QGroupBox{
 
 QPushButton[Info=true]{
   max-width: 2em;
+  background-image: url(assets/icons8-eye-24.png);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 QPushButton{

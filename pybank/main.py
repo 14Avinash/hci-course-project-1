@@ -12,9 +12,9 @@ import PyQt5.QtWidgets as qt_widgets
 import handlers.stylesheethandler as stylesheets
 
 # PyBank specific window imports
-import pybank.app_code.sign_in as window_with_login
-import pybank.app_code.sign_up as window_with_signup
-import pybank.app_code.account_overview as window_with_overview
+import app_code.sign_in as window_with_login
+import app_code.sign_up as window_with_signup
+import app_code.account_overview as window_with_overview
 
 # Global variables for the window management, style management
 import pyqt5_global.variables as gbl_vars

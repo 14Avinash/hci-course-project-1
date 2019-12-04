@@ -55,7 +55,7 @@ class Window_Login(qt_widgets.QWidget):
         self.labelAlignment2.setProperty('Hidden', True)
         self.layout.addWidget(self.labelAlignment2, 7, 3, 1, 2)
 
-        self.buttonShowPassword = qt_widgets.QPushButton('i', self)
+        self.buttonShowPassword = qt_widgets.QPushButton(' ', self)
         self.buttonShowPassword.setProperty('Info', True)
         self.buttonShowPassword.installEventFilter(self)
         self.layout.addWidget(self.buttonShowPassword, 6, 4, 1, 1)
@@ -63,6 +63,7 @@ class Window_Login(qt_widgets.QWidget):
         #Login button
         self.buttonLogin = qt_widgets.QPushButton('Sign-in', self)
         self.buttonLogin.clicked.connect(self.check_login)
+        self.buttonLogin.installEventFilter(self)
         self.layout.addWidget(self.buttonLogin, 8, 3, 1, 1)
 
         #Signup option
@@ -81,12 +82,24 @@ class Window_Login(qt_widgets.QWidget):
 
     def eventFilter(self, obj, event):
         #Handling show password event
-        if obj == self.buttonShowPassword:
+        if event.type() == qt_core.QEvent.KeyRelease:
+            self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+        elif obj == self.buttonShowPassword:
             if event.type() == qt_core.QEvent.MouseButtonPress:
                 self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
             elif event.type() == qt_core.QEvent.MouseButtonRelease:
                 self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
-        #Call Signup page
+            elif event.type() == qt_core.QEvent.KeyPress:
+                keyInput = event.key()
+                if (keyInput == qt_core.Qt.Key_Return or keyInput == qt_core.Qt.Key_Enter):
+                    self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
+                if (keyInput == qt_core.Qt.Key_Tab):
+                    self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+        elif obj == self.buttonLogin and event.type() == qt_core.QEvent.KeyPress:
+            #Attempt login on ENTER or RETURN
+            keyInput = event.key()
+            if keyInput == qt_core.Qt.Key_Return or keyInput == qt_core.Qt.Key_Enter:
+                self.check_login()        #Call Signup page
         elif obj == self.buttonSignup:
             if event.type() == qt_core.QEvent.MouseButtonPress:
                 self.hide()
@@ -95,9 +108,6 @@ class Window_Login(qt_widgets.QWidget):
 
     #Key handling functions
     def keyPressEvent(self, keyInput):
-        #Attempt login on ENTER or RETURN
-        if keyInput.key() == qt_core.Qt.Key_Return or keyInput.key() == qt_core.Qt.Key_Enter:
-            self.check_login()
         #Exit on ESCAPE
         if keyInput.key() == qt_core.Qt.Key_Escape:
             self.close()

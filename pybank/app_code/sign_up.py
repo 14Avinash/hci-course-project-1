@@ -17,6 +17,7 @@ class Window_Signup(qt_widgets.QMainWindow):
         self.step1_widget = Widget_Signup_User(self)
         self.current_widget.addWidget(self.step1_widget)
         self.step1_widget.buttonSignup.clicked.connect(self.check_login)
+        self.step1_widget.buttonSignup.installEventFilter(self)
     def check_login(self):
         self.user = self.step1_widget.check_login()
         if self.user is not None:
@@ -36,12 +37,16 @@ class Window_Signup(qt_widgets.QMainWindow):
         self.current_widget.setCurrentWidget(self.step1_widget)
     #Key handling functions
     def keyPressEvent(self, keyInput):
-        #Attempt login on ENTER or RETURN
-        if keyInput.key() == qt_core.Qt.Key_Return or keyInput.key() == qt_core.Qt.Key_Enter:
-            self.check_login()
         #Exit on ESCAPE
         if keyInput.key() == qt_core.Qt.Key_Escape:
             self.close()
+    def eventFilter(self, obj, event):
+        if obj == self.step1_widget.buttonSignup and event.type() == qt_core.QEvent.KeyPress:
+            #Attempt login on ENTER or RETURN
+            keyInput = event.key()
+            if keyInput == qt_core.Qt.Key_Return or keyInput == qt_core.Qt.Key_Enter:
+                self.check_login()        #Call Signup page
+        return False
 
 #Signup password and username view
 class Widget_Signup_User(qt_widgets.QWidget):
@@ -91,7 +96,7 @@ class Widget_Signup_User(qt_widgets.QWidget):
         self.layout.addWidget(self.textPasswordConfirm, 8, 1, 1, 3)
 
         # #Show Password Widget
-        self.buttonShowPassword = qt_widgets.QPushButton('i', self)
+        self.buttonShowPassword = qt_widgets.QPushButton(' ', self)
         self.buttonShowPassword.setProperty('Info', True)
         self.buttonShowPassword.installEventFilter(self)
         self.layout.addWidget(self.buttonShowPassword, 6, 4, 1, 1)
@@ -153,13 +158,29 @@ class Widget_Signup_User(qt_widgets.QWidget):
             qt_widgets.QMessageBox.warning(self, 'Error', 'Please enter a username')
 
     def eventFilter(self, obj, event):
-        if event.type() == qt_core.QEvent.MouseButtonPress:
-            print(obj)
-        #Call Login page
-        if obj == self.buttonLogin:
+        #Handling show password event
+        if event.type() == qt_core.QEvent.KeyRelease or obj is not self.buttonShowPassword:
+            self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+            self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Password)
+        elif obj == self.buttonShowPassword:
             if event.type() == qt_core.QEvent.MouseButtonPress:
-                self.parent.backLogin()
-                stack.windowStack[0].show()
+                self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
+                self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Normal)
+            elif event.type() == qt_core.QEvent.MouseButtonRelease:
+                self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+                self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Password)
+            elif event.type() == qt_core.QEvent.KeyPress:
+                keyInput = event.key()
+                if (keyInput == qt_core.Qt.Key_Return or keyInput == qt_core.Qt.Key_Enter):
+                    self.textPassword.setEchoMode(qt_widgets.QLineEdit.Normal)
+                    self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Normal)
+                if (keyInput == qt_core.Qt.Key_Tab):
+                    self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
+                    self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Password)
+        elif obj == self.buttonSignup:
+            if event.type() == qt_core.QEvent.MouseButtonPress:
+                self.hide()
+                stack.windowStack[1].show()
         return False
 
 #Signup page checking
