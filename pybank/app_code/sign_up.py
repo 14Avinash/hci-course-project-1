@@ -223,10 +223,10 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.checking = qt_widgets.QCheckBox('I do not wish to add a checking account', self)
         vboxOuter.addWidget(self.checking)
         self.checking.stateChanged.connect(self.toggleGroupBox)
-        radiobutton = qt_widgets.QRadioButton("Sync Account")
-        vbox.addWidget(radiobutton)
-        radiobutton = qt_widgets.QRadioButton("Add Account Manually")
-        vbox.addWidget(radiobutton)
+        self.radiobutton1 = qt_widgets.QRadioButton("Sync Account")
+        vbox.addWidget(self.radiobutton1)
+        self.radiobutton2 = qt_widgets.QRadioButton("Add Account Manually")
+        vbox.addWidget(self.radiobutton2)
         vboxOuter.addWidget(self.exclusiveGroup)
 
 
