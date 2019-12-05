@@ -1,5 +1,6 @@
 QWidget{
   background-color: #180f20;
+  font-family: "Helvetica", "Courier";
 }
 
 QGroupBox{
@@ -8,6 +9,9 @@ QGroupBox{
 
 QPushButton[Info=true]{
   max-width: 2em;
+  background-image: url(assets/icons8-eye-24.png);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 QPushButton{
@@ -48,18 +52,42 @@ QCheckBox{
   color: #ffffff;
 }
 
-QCheckBox::indicator{
-  color: #ffffff;
-  border: 1px solid #695f72;
-}
-
 QRadioButton{
   color: #ffffff;
 }
 
-QRadioButton::indicator::unchecked{
-  border: 1px solid #695f72;
+QRadioButton::indicator{
+  width: 10px;
+  height: 10px;
   border-radius: 7px;
+}
+
+QRadioButton::indicator::unchecked{
+  border: solid #695f72;
+  border-radius: 2px;
+  background-color: #695f72;
+}
+
+QRadioButton::indicator::checked{
+  border: solid #695f72;
+  border-radius: 2px;
+  background-color: #ffffff;
+}
+
+QRadioButton:disabled{
+  color: #3e3547;
+}
+
+QRadioButton::indicator::unchecked:disabled{
+  border: solid #3e3547;
+  border-radius: 2px;
+  background-color: #3e3547;
+}
+
+QRadioButton::indicator::checked:disabled{
+  border: solid #3e3547;
+  border-radius: 2px;
+  background-color: #3e3547;
 }
 
 QGroupBox{
