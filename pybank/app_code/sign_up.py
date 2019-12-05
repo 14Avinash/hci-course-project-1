@@ -14,24 +14,31 @@ class Window_Signup(qt_widgets.QMainWindow):
         self.setProperty('Main_Window', True)
         self.current_widget = qt_widgets.QStackedWidget()
         self.setCentralWidget(self.current_widget)
+        #Username
         self.step1_widget = Widget_Signup_User(self)
         self.current_widget.addWidget(self.step1_widget)
         self.step1_widget.buttonSignup.clicked.connect(self.check_login)
         self.step1_widget.buttonSignup.installEventFilter(self)
+        self.step1_widget.buttonLogin.installEventFilter(self)
+        #Checking
+        self.step2_widget = Widget_Signup_Checking(self)
+        self.current_widget.addWidget(self.step2_widget)
+        self.step2_widget.buttonLogin.installEventFilter(self)
+        self.step2_widget.buttonNext.clicked.connect(self.to_savings)
+        self.step2_widget.buttonBack.clicked.connect(self.back_user)
+        #Savings
+        self.step3_widget = Widget_Signup_Savings(self)
+        self.current_widget.addWidget(self.step3_widget)
+        self.step3_widget.buttonLogin.installEventFilter(self)
+        self.step3_widget.buttonSignup.clicked.connect(self.signup)
+        self.step3_widget.buttonBack.clicked.connect(self.back_checking)
     def check_login(self):
         self.user = self.step1_widget.check_login()
         if self.user is not None:
-            self.step2_widget = Widget_Signup_Checking(self)
-            self.current_widget.addWidget(self.step2_widget)
             self.current_widget.setCurrentWidget(self.step2_widget)
-            self.step2_widget.buttonNext.clicked.connect(self.to_savings)
     def to_savings(self):
         self.user = self.step2_widget.makeChecking(self.user)
-
-        self.step3_widget = Widget_Signup_Savings(self)
-        self.current_widget.addWidget(self.step3_widget)
         self.current_widget.setCurrentWidget(self.step3_widget)
-        self.step3_widget.buttonSignup.clicked.connect(self.signup)
     def signup(self):
         self.user = self.step3_widget.makeSavings(self.user)
         user_handling.addNewCustomer(self.user)
@@ -39,20 +46,23 @@ class Window_Signup(qt_widgets.QMainWindow):
             account_handling.createChecking(user_handling.findDir(self.user))
         stack.windowStack[2].user_interface(self.user)
         self.hide()
-    def backLogin(self):
+    def back_login(self):
         self.hide()
         self.current_widget.setCurrentWidget(self.step1_widget)
+    def back_user(self):
+        self.current_widget.setCurrentWidget(self.step1_widget)
+    def back_checking(self):
+        self.current_widget.setCurrentWidget(self.step2_widget)
     #Key handling functions
     def keyPressEvent(self, keyInput):
         #Exit on ESCAPE
         if keyInput.key() == qt_core.Qt.Key_Escape:
             self.close()
     def eventFilter(self, obj, event):
-        if obj == self.step1_widget.buttonSignup and event.type() == qt_core.QEvent.KeyPress:
-            #Attempt login on ENTER or RETURN
-            keyInput = event.key()
-            if keyInput == qt_core.Qt.Key_Return or keyInput == qt_core.Qt.Key_Enter:
-                self.check_login()        #Call Signup page
+        if obj == self.step1_widget.buttonLogin or obj == self.step2_widget.buttonLogin or obj == self.step3_widget.buttonLogin:
+            if event.type() == qt_core.QEvent.MouseButtonPress:
+                self.back_login()
+                stack.windowStack[0].show()
         return False
 
 #Signup password and username view
@@ -127,7 +137,6 @@ class Widget_Signup_User(qt_widgets.QWidget):
         self.buttonLogin.setProperty('Link', True)
         self.buttonLogin.setText('Sign-in')
         self.layout.addWidget(self.buttonLogin, 11, 3, 1, 1, qt_core.Qt.AlignCenter)
-        self.buttonLogin.installEventFilter(self)
 
         #FOR ALIGNMENT
         self.labelAlignment2 = qt_widgets.QLabel(self)
@@ -184,10 +193,6 @@ class Widget_Signup_User(qt_widgets.QWidget):
                 if (keyInput == qt_core.Qt.Key_Tab):
                     self.textPassword.setEchoMode(qt_widgets.QLineEdit.Password)
                     self.textPasswordConfirm.setEchoMode(qt_widgets.QLineEdit.Password)
-        elif obj == self.buttonSignup:
-            if event.type() == qt_core.QEvent.MouseButtonPress:
-                self.hide()
-                stack.windowStack[1].show()
         return False
 
 #Signup page checking
@@ -240,7 +245,12 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         #Signup button
         self.buttonNext = qt_widgets.QPushButton('Next', self)
         # self.buttonSignup.clicked.connect(self.check_login)
-        self.layout.addWidget(self.buttonNext, 8, 1, 1, 3, qt_core.Qt.AlignRight)
+        self.layout.addWidget(self.buttonNext, 8, 3, 1, 1, qt_core.Qt.AlignRight)
+
+        #Back button
+        self.buttonBack = qt_widgets.QPushButton('Back', self)
+        # self.buttonSignup.clicked.connect(self.check_login)
+        self.layout.addWidget(self.buttonBack, 8, 1, 1, 1, qt_core.Qt.AlignLeft)
 
         #Login option
         self.labelSignin = qt_widgets.QLabel(self)
@@ -248,9 +258,8 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
         self.layout.addWidget(self.labelSignin, 9, 1, 1, 1)
         self.buttonLogin = qt_widgets.QLabel(self)
         self.buttonLogin.setProperty('Link', True)
-        self.buttonLogin.setText('Login')
+        self.buttonLogin.setText('Sign-in')
         self.layout.addWidget(self.buttonLogin, 9, 3, 1, 1, qt_core.Qt.AlignCenter)
-        self.buttonLogin.installEventFilter(self)
 
         #FOR ALIGNMENT
         self.labelAlignment2 = qt_widgets.QLabel(self)
@@ -270,16 +279,6 @@ class Widget_Signup_Checking(qt_widgets.QWidget):
     def makeChecking(self, userData):
         userData['flags']['checking'] = not self.checking.isChecked()
         return userData
-
-    def eventFilter(self, obj, event):
-        if event.type() == qt_core.QEvent.MouseButtonPress:
-            print(obj)
-        #Call Login page
-        if obj == self.buttonLogin:
-            if event.type() == qt_core.QEvent.MouseButtonPress:
-                self.parent.backLogin()
-                stack.windowStack[0].show()
-        return False
 
 
 #Signup page savings
@@ -330,9 +329,14 @@ class Widget_Signup_Savings(qt_widgets.QWidget):
 
 
         #Signup button
-        self.buttonSignup = qt_widgets.QPushButton('Signup', self)
+        self.buttonSignup = qt_widgets.QPushButton('Sign-up', self)
         # self.buttonSignup.clicked.connect(self.check_login)
         self.layout.addWidget(self.buttonSignup, 8, 1, 1, 3, qt_core.Qt.AlignRight)
+
+        #Back button
+        self.buttonBack = qt_widgets.QPushButton('Back', self)
+        # self.buttonSignup.clicked.connect(self.check_login)
+        self.layout.addWidget(self.buttonBack, 8, 1, 1, 1, qt_core.Qt.AlignLeft)
 
         #Login option
         self.labelSignin = qt_widgets.QLabel(self)
@@ -340,9 +344,8 @@ class Widget_Signup_Savings(qt_widgets.QWidget):
         self.layout.addWidget(self.labelSignin, 9, 1, 1, 1)
         self.buttonLogin = qt_widgets.QLabel(self)
         self.buttonLogin.setProperty('Link', True)
-        self.buttonLogin.setText('Login')
+        self.buttonLogin.setText('Sign-in')
         self.layout.addWidget(self.buttonLogin, 9, 3, 1, 1, qt_core.Qt.AlignCenter)
-        self.buttonLogin.installEventFilter(self)
 
         #FOR ALIGNMENT
         self.labelAlignment2 = qt_widgets.QLabel(self)
@@ -363,13 +366,3 @@ class Widget_Signup_Savings(qt_widgets.QWidget):
     def makeSavings(self, userData):
         userData['flags']['savings'] = not self.savings.isChecked()
         return userData
-
-    def eventFilter(self, obj, event):
-        if event.type() == qt_core.QEvent.MouseButtonPress:
-            print(obj)
-        #Call Login page
-        if obj == self.buttonLogin:
-            if event.type() == qt_core.QEvent.MouseButtonPress:
-                self.parent.backLogin()
-                stack.windowStack[0].show()
-        return False
