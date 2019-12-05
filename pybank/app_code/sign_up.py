@@ -10,10 +10,17 @@ class Window_Signup(qt_widgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Sign-up')
-        self.setGeometry(50, 50, 500, 500)
+        self.setGeometry(50, 50, 480, 576)
         self.setProperty('Main_Window', True)
         self.current_widget = qt_widgets.QStackedWidget()
         self.setCentralWidget(self.current_widget)
+
+        # Center the window based on the properties of the desktop
+        qtRectangle = qt_widgets.QWidget.frameGeometry(self)
+        centerPoint = qt_widgets.QDesktopWidget().availableGeometry().center()
+        qtRectangle.moveCenter(centerPoint)
+        self.move(qtRectangle.topLeft())
+
         #Username
         self.step1_widget = Widget_Signup_User(self)
         self.current_widget.addWidget(self.step1_widget)
