@@ -7,21 +7,24 @@ import pyqt5_global.variables as stack
 
 font = qt_gui.QFont('Times', 20)
 
+
 # Signup window class and functionality
 class Window_Overview(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
+        self.table_3 = qt_widgets.QTableWidget()
+        self.table_2 = qt_widgets.QTableWidget()
+        self.table_1 = qt_widgets.QTableWidget()
+        self.tab_3 = qt_widgets.QWidget()
+        self.tab_2 = qt_widgets.QWidget()
+        self.tab_1 = qt_widgets.QWidget()
+        self.tab_container = qt_widgets.QTabWidget()
         self.setWindowTitle('Account Overview')
         self.setProperty('Main_Window', True)
         self.setGeometry(50, 50, 600, 520)
 
-    def user_interface(self, userData):
+    def user_interface(self, user_data):
         main_layout = qt_widgets.QVBoxLayout()
-        self.tab_container = qt_widgets.QTabWidget()
-
-        self.tab_1 = qt_widgets.QWidget()
-        self.tab_2 = qt_widgets.QWidget()
-        self.tab_3 = qt_widgets.QWidget()
 
         # Add tabs to main tab
         self.tab_container.addTab(self.tab_1, "Checking")
@@ -32,11 +35,8 @@ class Window_Overview(qt_widgets.QWidget):
         savings_hbox = qt_widgets.QHBoxLayout()
         credit_card_hbox = qt_widgets.QHBoxLayout()
 
-        self.table_1 = qt_widgets.QTableWidget()
         self.table_1.setMaximumWidth(250)
-        self.table_2 = qt_widgets.QTableWidget()
         self.table_2.setMaximumWidth(250)
-        self.table_3 = qt_widgets.QTableWidget()
         self.table_3.setMaximumWidth(250)
 
         checking_hbox.addWidget(self.table_1)
@@ -58,7 +58,7 @@ class Window_Overview(qt_widgets.QWidget):
         self.table_3.setHorizontalHeaderItem(0, qt_widgets.QTableWidgetItem("Transaction"))
         self.table_3.setHorizontalHeaderItem(1, qt_widgets.QTableWidgetItem("Amount"))
 
-        welcome_label = qt_widgets.QLabel(f'Hello, {userData["username"]}!', self)
+        welcome_label = qt_widgets.QLabel(f'Hello, {user_data["username"]}!', self)
         welcome_label.setFont(font)
 
         btn_1 = qt_widgets.QPushButton("Make A Deposit")
@@ -94,7 +94,7 @@ class Window_Overview(qt_widgets.QWidget):
         self.table_1.setItem(3, 0, qt_widgets.QTableWidgetItem("4"))
         self.table_1.setItem(3, 1, qt_widgets.QTableWidgetItem("[-] $24.78"))
 
-        print(userData)
+        print(user_data)
 
         # # Begin Column: Checking information
         # self.labelChecking = qt_widgets.QLabel(self)
@@ -147,3 +147,21 @@ class Window_Overview(qt_widgets.QWidget):
         self.setLayout(main_layout)
 
         self.show()
+
+    def create_checking_account_tab(self):
+        pass
+
+    def add_checking_account_data_from_csv(self):
+        pass
+
+    def create_savings_account_tab(self):
+        pass
+
+    def add_savings_account_data_from_csv(self):
+        pass
+
+    def create_credit_card_tab(self):
+        pass
+
+    def add_credit_card_data_from_csv(self):
+        pass
