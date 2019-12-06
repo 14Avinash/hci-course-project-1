@@ -67,6 +67,8 @@ class Window_Overview(qt_widgets.QWidget):
         btn_4 = qt_widgets.QPushButton("Show Graphs")
         btn_5 = qt_widgets.QPushButton("Details")
 
+        btn_4.clicked.connect(self.display_graphs)
+
         v_layout_inside_checking = qt_widgets.QVBoxLayout()
         checking_hbox.addLayout(v_layout_inside_checking)
 
@@ -147,3 +149,7 @@ class Window_Overview(qt_widgets.QWidget):
         self.setLayout(main_layout)
 
         self.show()
+
+    #Temporary functionality to reach the Graphs page. This can be adjusted.
+    def display_graphs(self):
+        stack.windowStack[3].user_interface()

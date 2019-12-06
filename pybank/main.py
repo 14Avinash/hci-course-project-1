@@ -15,6 +15,7 @@ import handlers.stylesheethandler as stylesheets
 import app_code.sign_in as window_with_login
 import app_code.sign_up as window_with_signup
 import app_code.account_overview as window_with_overview
+import app_code.graphs as window_with_graphs
 
 # Global variables for the window management, style management
 import pyqt5_global.variables as gbl_vars
@@ -32,6 +33,7 @@ def main():
     gbl_vars.windowStack.append(window_with_login.Window_Login())
     gbl_vars.windowStack.append(window_with_signup.Window_Signup())
     gbl_vars.windowStack.append(window_with_overview.Window_Overview())
+    gbl_vars.windowStack.append(window_with_graphs.Window_Graphs())
     # win = window_with_signup.Window_Signup()
     # win.start()  # when uncommented, starts the timer automatically
 
