@@ -20,6 +20,7 @@ welcome_label_font = qt_gui.QFont('Helvetica', 28)
 class Window_Overview(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
+        self.tx_number = 1
         self.nav_h_layout = qt_widgets.QHBoxLayout()
         self.credit_card_hbox = qt_widgets.QHBoxLayout()
         self.savings_hbox = qt_widgets.QHBoxLayout()
@@ -59,6 +60,8 @@ class Window_Overview(qt_widgets.QWidget):
 
         # Create the checking account tab widgets
         self.create_checking_account_tab(user_data)
+        self.create_savings_account_tab(user_data)
+        self.create_credit_card_tab(user_data)
 
         # Add the navigation menu and tabs to the main layout
         main_layout.addLayout(self.nav_h_layout)
@@ -71,18 +74,17 @@ class Window_Overview(qt_widgets.QWidget):
     # Checking account operations *************************************************************************************
     def create_checking_account_tab(self, user_data):
         # Store the username and capitalize the first letter.
-        username = str(user_data["username"])
-        username = username.capitalize()
+        self.username = str(user_data["username"])
 
         # Create a label to greet the user based on their username when viewing the checking account tab.
-        self.welcome_label = qt_widgets.QLabel(f'Hello, {username}!', self)
+        welcome_label_checking = qt_widgets.QLabel(f'Hello, {self.username}!', self)
 
         # Underline and set the font for the welcome label.
         welcome_label_font.setUnderline(True)
-        self.welcome_label.setFont(welcome_label_font)
+        welcome_label_checking.setFont(welcome_label_font)
 
         # Set the dimensions of the table.
-        self.table_1.setMaximumWidth(980)
+        self.table_1.setMaximumWidth(940)
         self.table_1.setMinimumHeight(620)
         self.table_1.setMaximumHeight(620)
         self.checking_hbox.addWidget(self.table_1)
@@ -99,20 +101,21 @@ class Window_Overview(qt_widgets.QWidget):
 
         # Set the columns for the table.
         header = self.table_1.horizontalHeader()
-        header.setSectionResizeMode(0, qt_widgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(0, qt_widgets.QHeaderView.Stretch)
         header.setSectionResizeMode(1, qt_widgets.QHeaderView.Stretch)
         header.setSectionResizeMode(2, qt_widgets.QHeaderView.Stretch)
         header.setSectionResizeMode(3, qt_widgets.QHeaderView.Stretch)
-        header.setSectionResizeMode(4, qt_widgets.QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(5, qt_widgets.QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(4, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(5, qt_widgets.QHeaderView.Stretch)
         self.table_1.setEditTriggers(qt_widgets.QAbstractItemView.NoEditTriggers)
+        self.table_1.verticalHeader().setVisible(False)
 
         # Checking account buttons.
         btn_1 = qt_widgets.QPushButton("Make A Deposit")
         btn_2 = qt_widgets.QPushButton("Make A Withdrawal")
         btn_3 = qt_widgets.QPushButton("Transfer Funds")
         btn_4 = qt_widgets.QPushButton("Show Graphs")
-        btn_5 = qt_widgets.QPushButton("Sign Out")
+        btn_5 = qt_widgets.QPushButton("Details")
 
         # Create a new layout inside checking for the buttons
         v_layout_inside_checking = qt_widgets.QVBoxLayout()
@@ -120,7 +123,7 @@ class Window_Overview(qt_widgets.QWidget):
 
         # Add the buttons to the layout and set their lengths.
         v_layout_inside_checking.addStretch()
-        v_layout_inside_checking.addWidget(self.welcome_label, alignment=qt_core.Qt.AlignCenter)
+        v_layout_inside_checking.addWidget(welcome_label_checking, alignment=qt_core.Qt.AlignCenter)
         v_layout_inside_checking.addStretch()
         v_layout_inside_checking.addWidget(btn_1)
         v_layout_inside_checking.addStretch()
@@ -133,6 +136,10 @@ class Window_Overview(qt_widgets.QWidget):
         v_layout_inside_checking.addWidget(btn_5)
         v_layout_inside_checking.addStretch()
 
+        # Connect buttons to handlers
+        btn_1.clicked.connect(self.make_deposit_handler)
+        btn_4.clicked.connect(self.show_graphs)
+
         # Add the checking account internal layout to the checking account horizontal layout
         self.tab_1.setLayout(self.checking_hbox)
 
@@ -140,19 +147,173 @@ class Window_Overview(qt_widgets.QWidget):
         pass
 
     # Savings account operations **************************************************************************************
-    def create_savings_account_tab(self):
-        pass
+    def create_savings_account_tab(self, user_data):
+        # Store the username and capitalize the first letter.
+        self.username = str(user_data["username"])
+
+        # Create a label to greet the user based on their username when viewing the checking account tab.
+        welcome_label_savings = qt_widgets.QLabel(f'Hello, {self.username}!', self)
+
+        # Underline and set the font for the welcome label.
+        welcome_label_font.setUnderline(True)
+        welcome_label_savings.setFont(welcome_label_font)
+
+        # Set the dimensions of the table.
+        self.table_2.setMaximumWidth(940)
+        self.table_2.setMinimumHeight(620)
+        self.table_2.setMaximumHeight(620)
+        self.savings_hbox.addWidget(self.table_2)
+        self.table_2.setRowCount(25)
+        self.table_2.setColumnCount(6)
+
+        # Set the table headers.
+        self.table_2.setHorizontalHeaderItem(0, qt_widgets.QTableWidgetItem("Transaction ID"))
+        self.table_2.setHorizontalHeaderItem(1, qt_widgets.QTableWidgetItem("Transaction Type"))
+        self.table_2.setHorizontalHeaderItem(2, qt_widgets.QTableWidgetItem("Amount"))
+        self.table_2.setHorizontalHeaderItem(3, qt_widgets.QTableWidgetItem("Category"))
+        self.table_2.setHorizontalHeaderItem(4, qt_widgets.QTableWidgetItem("Date"))
+        self.table_2.setHorizontalHeaderItem(5, qt_widgets.QTableWidgetItem("Time"))
+
+        # Set the columns for the table.
+        header = self.table_2.horizontalHeader()
+        header.setSectionResizeMode(0, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(3, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(4, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(5, qt_widgets.QHeaderView.Stretch)
+        self.table_2.setEditTriggers(qt_widgets.QAbstractItemView.NoEditTriggers)
+        self.table_2.verticalHeader().setVisible(False)
+
+        # Checking account buttons.
+        btn_1 = qt_widgets.QPushButton("Make A Deposit")
+        btn_2 = qt_widgets.QPushButton("Make A Withdrawal")
+        btn_3 = qt_widgets.QPushButton("Transfer Funds")
+        btn_4 = qt_widgets.QPushButton("Show Graphs")
+        btn_5 = qt_widgets.QPushButton("Details")
+
+        # Create a new layout inside checking for the buttons
+        v_layout_inside_savings = qt_widgets.QVBoxLayout()
+        self.savings_hbox.addLayout(v_layout_inside_savings)
+
+        # Add the buttons to the layout and set their lengths.
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(welcome_label_savings, alignment=qt_core.Qt.AlignCenter)
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(btn_1)
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(btn_2)
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(btn_3)
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(btn_4)
+        v_layout_inside_savings.addStretch()
+        v_layout_inside_savings.addWidget(btn_5)
+        v_layout_inside_savings.addStretch()
+
+        # Add the checking account internal layout to the checking account horizontal layout
+        self.tab_2.setLayout(self.savings_hbox)
 
     # Credit card account operations **********************************************************************************
-    def create_credit_card_tab(self):
-        pass
+    def create_credit_card_tab(self, user_data):
+        # Store the username and capitalize the first letter.
+        self.username = str(user_data["username"])
+
+        # Create a label to greet the user based on their username when viewing the checking account tab.
+        welcome_label_credit_card = qt_widgets.QLabel(f'Hello, {self.username}!', self)
+
+        # Underline and set the font for the welcome label.
+        welcome_label_font.setUnderline(True)
+        welcome_label_credit_card.setFont(welcome_label_font)
+
+        # Set the dimensions of the table.
+        self.table_3.setMaximumWidth(940)
+        self.table_3.setMinimumHeight(620)
+        self.table_3.setMaximumHeight(620)
+        self.credit_card_hbox.addWidget(self.table_3)
+        self.table_3.setRowCount(25)
+        self.table_3.setColumnCount(6)
+
+        # Set the table headers.
+        self.table_3.setHorizontalHeaderItem(0, qt_widgets.QTableWidgetItem("Transaction ID"))
+        self.table_3.setHorizontalHeaderItem(1, qt_widgets.QTableWidgetItem("Transaction Type"))
+        self.table_3.setHorizontalHeaderItem(2, qt_widgets.QTableWidgetItem("Amount"))
+        self.table_3.setHorizontalHeaderItem(3, qt_widgets.QTableWidgetItem("Category"))
+        self.table_3.setHorizontalHeaderItem(4, qt_widgets.QTableWidgetItem("Date"))
+        self.table_3.setHorizontalHeaderItem(5, qt_widgets.QTableWidgetItem("Time"))
+
+        # Set the columns for the table.
+        header = self.table_3.horizontalHeader()
+        header.setSectionResizeMode(0, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(1, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(2, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(3, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(4, qt_widgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(5, qt_widgets.QHeaderView.Stretch)
+        self.table_3.setEditTriggers(qt_widgets.QAbstractItemView.NoEditTriggers)
+        self.table_3.verticalHeader().setVisible(False)
+
+        # Checking account buttons.
+        btn_1 = qt_widgets.QPushButton("Make A Payment")
+        btn_2 = qt_widgets.QPushButton("Request A Cash Advance")
+        btn_3 = qt_widgets.QPushButton("Request A Credit Line Increase")
+        btn_4 = qt_widgets.QPushButton("Show Graphs")
+        btn_5 = qt_widgets.QPushButton("Details")
+
+        # Create a new layout inside checking for the buttons
+        v_layout_inside_credit_card = qt_widgets.QVBoxLayout()
+        self.credit_card_hbox.addLayout(v_layout_inside_credit_card)
+
+        # Add the buttons to the layout and set their lengths.
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(welcome_label_credit_card, alignment=qt_core.Qt.AlignCenter)
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(btn_1)
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(btn_2)
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(btn_3)
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(btn_4)
+        v_layout_inside_credit_card.addStretch()
+        v_layout_inside_credit_card.addWidget(btn_5)
+        v_layout_inside_credit_card.addStretch()
+
+        # Add the checking account internal layout to the checking account horizontal layout
+        self.tab_3.setLayout(self.credit_card_hbox)
 
     # Account overview handlers ***************************************************************************************
     def load_account_data_from_csv(self):
         pass
 
     def make_deposit_handler(self):
-        pass
+        dt = datetime.datetime.now()
+        tx_id = qt_widgets.QTableWidgetItem(str(self.tx_number))
+        tx_type = qt_widgets.QTableWidgetItem("Deposit")
+        tx_amt = qt_widgets.QTableWidgetItem("[+] $50.99")
+        tx_cat = qt_widgets.QTableWidgetItem("ATM")
+        tx_date = qt_widgets.QTableWidgetItem(str(dt.strftime("%m") + "/" + dt.strftime("%d") + "/" + dt.strftime("%Y")))
+        tx_time = qt_widgets.QTableWidgetItem(str(dt.time().strftime('%H:%M:%S')))
+
+        self.table_1.setItem(self.tx_number - 1, 0, tx_id)
+        tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.table_1.setItem(self.tx_number - 1, 1, tx_type)
+        tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.table_1.setItem(self.tx_number - 1, 2, tx_amt)
+        tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.table_1.setItem(self.tx_number - 1, 3, tx_cat)
+        tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.table_1.setItem(self.tx_number - 1, 4, tx_date)
+        tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.table_1.setItem(self.tx_number - 1, 5, tx_time)
+        tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+        self.tx_number += 1
 
     def make_withdrawal_handler(self):
         pass
@@ -161,7 +322,7 @@ class Window_Overview(qt_widgets.QWidget):
         pass
 
     def show_graphs(self):
-        pass
+        stack.windowStack[3].user_interface()
 
     def sign_out_handler(self):
         pass
