@@ -17,6 +17,7 @@ import app_code.sign_up as window_with_signup
 import app_code.account_overview as window_with_overview
 import app_code.graphs as window_with_graphs
 
+
 # Global variables for the window management, style management
 import pyqt5_global.variables as gbl_vars
 
@@ -47,7 +48,7 @@ try:  # Run the program only if this module is set properly by the interpreter a
     else:  # If this module is imported raise/throw an ImportError.
         raise ImportError
 except ImportError:  # If an ImportError is thrown exit the program attempting to import training.py prematurely.
-    sys.exit('Import Error: training.py must be run directly, not imported.')
+    sys.exit('Import Error: main.py must be run directly, not imported.')
 except Exception as err:  # Print any other exception that causes the program to not start successfully.
     print(err)
 else:  # Call the main function if no exceptions were raised

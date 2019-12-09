@@ -10,8 +10,15 @@ class Window_Login(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('PyBank')
-        self.setGeometry(50, 50, 500, 500)
+        self.setGeometry(50, 50, 480, 576)
         self.setProperty('Main_Window', True)
+
+        # Center the window based on the properties of the desktop
+        qtRectangle = qt_widgets.QWidget.frameGeometry(self)
+        centerPoint = qt_widgets.QDesktopWidget().availableGeometry().center()
+        qtRectangle.moveCenter(centerPoint)
+        self.move(qtRectangle.topLeft())
+
         self.user_interface()
 
     def user_interface(self):
