@@ -74,8 +74,35 @@ class Window_Overview(qt_widgets.QWidget):
         self.table_1.setItem(0, 3, tx_cat)
         tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
 
+
+        btn_1 = qt_widgets.QPushButton("Make A Deposit")
+        btn_2 = qt_widgets.QPushButton("Make A Withdrawal")
+        btn_3 = qt_widgets.QPushButton("Transfer Funds")
+        btn_4 = qt_widgets.QPushButton("Show Graphs")
+        btn_5 = qt_widgets.QPushButton("Details")
+
+        btn_4.clicked.connect(self.display_graphs)
+
+        v_layout_inside_checking = qt_widgets.QVBoxLayout()
+        checking_hbox.addLayout(v_layout_inside_checking)
+
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(welcome_label, alignment=qt_core.Qt.AlignCenter)
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(btn_1)
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(btn_2)
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(btn_3)
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(btn_4)
+        v_layout_inside_checking.addStretch()
+        v_layout_inside_checking.addWidget(btn_5)
+        v_layout_inside_checking.addStretch()
+
         self.table_1.setItem(0, 4, tx_date)
         tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
 
         self.table_1.setItem(0, 5, tx_time)
         tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
@@ -134,6 +161,11 @@ class Window_Overview(qt_widgets.QWidget):
         self.setLayout(main_layout)
 
         self.show()
+
+
+    # Temporary functionality to reach the Graphs page. This can be adjusted.
+    def display_graphs(self):
+        stack.windowStack[3].user_interface()
 
     def create_checking_account_tab(self):
         self.table_1.setMaximumWidth(980)
