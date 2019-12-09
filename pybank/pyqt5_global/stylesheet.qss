@@ -153,3 +153,40 @@ QTabBar::tab:first:selected {
 QTabBar::tab:last:selected {
   margin-right: 0;
 }
+
+QMenuBar {
+  color: #ffffff;
+  background: #3e3547;
+}
+
+QMenuBar::item {
+  border-right: 2px solid #695f72;
+  border-left: 2px solid #695f72;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin: 0px;
+}
+
+QMenuBar::item:selected{
+  background: #695f72;
+}
+
+QMenu {
+  color: #ffffff;
+  background: #3e3547;
+  border: 2px solid #695f72;
+}
+
+QMenu::item {
+  color: #ffffff;
+  background: #3e3547;
+}
+
+QMenu::item:selected {
+  color: #ffffff;
+  background: #695f72;
+}
+
+QMenu::shortcut{
+  padding: 10px;
+}
