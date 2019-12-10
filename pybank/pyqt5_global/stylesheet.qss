@@ -162,8 +162,9 @@ QMenuBar {
 QMenuBar::item {
   border-right: 2px solid #695f72;
   border-left: 2px solid #695f72;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 4px;
   margin: 0px;
 }
 

@@ -12,10 +12,10 @@ import PyQt5.QtWidgets as qt_widgets
 import handlers.stylesheethandler as stylesheets
 
 # PyBank specific window imports
-import pybank.app_code.sign_in as window_with_login
-import pybank.app_code.sign_up as window_with_signup
-import pybank.app_code.account_overview as window_with_overview
-import pybank.app_code.graphs as window_with_graphs
+import app_code.sign_in as login_window
+import app_code.sign_up as signup_window
+import app_code.account_overview as account_overview_window
+import app_code.graphs as graph_window
 
 
 # Global variables for the window management, style management
@@ -31,13 +31,10 @@ def main():
     app.setStyleSheet(gbl_vars.stylesheet)
 
     # Create an instance of the main application window
-    gbl_vars.windowStack.append(window_with_login.Window_Login())
-    gbl_vars.windowStack.append(window_with_signup.Window_Signup())
-    gbl_vars.windowStack.append(window_with_overview.Window_Overview())
-    gbl_vars.windowStack.append(window_with_graphs.Window_Graphs())
-
-    # win = window_with_signup.Window_Signup()
-    # win.start()  # when uncommented, starts the timer automatically
+    gbl_vars.windowStack.append(login_window.Window_Login())
+    gbl_vars.windowStack.append(signup_window.Window_Signup())
+    gbl_vars.windowStack.append(account_overview_window.Window_Overview())
+    gbl_vars.windowStack.append(graph_window.Window_Graphs())
 
     # Exit the application
     sys.exit(app.exec_())
