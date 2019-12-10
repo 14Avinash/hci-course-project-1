@@ -49,6 +49,8 @@ class Window_Overview(qt_widgets.QWidget):
     def user_interface(self, user_data):
         # Create the main layout
         main_layout = qt_widgets.QVBoxLayout()
+        v_layout = qt_widgets.QVBoxLayout()
+        v_layout.addStretch()
 
         # Create the navigation menu layout
         self.nav_h_layout.addWidget(nav_menu.Window())
@@ -66,6 +68,7 @@ class Window_Overview(qt_widgets.QWidget):
         self.create_credit_card_tab(user_data)
 
         # Add the navigation menu and tabs to the main layout
+        main_layout.addLayout(v_layout)
         main_layout.addLayout(self.nav_h_layout)
         main_layout.addWidget(self.tab_container)
 
