@@ -4,10 +4,10 @@ import PyQt5.QtCore as qt_core
 import PyQt5.QtGui as qt_gui
 
 # Account-based imports
-import pybank.handlers.userhandler as user_handling
-import pybank.handlers.accounthandler as account_handling
-import pybank.pyqt5_global.variables as stack
-import pybank.app_code.nav_menu as nav_menu
+import handlers.userhandler as user_handling
+import handlers.accounthandler as account_handling
+import pyqt5_global.variables as stack
+import app_code.nav_menu as nav_menu
 
 # Python standard library imports
 import datetime
@@ -20,7 +20,9 @@ welcome_label_font = qt_gui.QFont('Helvetica', 28)
 class Window_Overview(qt_widgets.QWidget):
     def __init__(self):
         super().__init__()
-        self.tx_number = 1
+        self.chk_tx_number = 1
+        self.svg_tx_number = 1
+        self.crd_tx_number = 1
         self.nav_h_layout = qt_widgets.QHBoxLayout()
         self.credit_card_hbox = qt_widgets.QHBoxLayout()
         self.savings_hbox = qt_widgets.QHBoxLayout()
@@ -115,7 +117,7 @@ class Window_Overview(qt_widgets.QWidget):
         btn_2 = qt_widgets.QPushButton("Make A Withdrawal")
         btn_3 = qt_widgets.QPushButton("Transfer Funds")
         btn_4 = qt_widgets.QPushButton("Show Graphs")
-        btn_5 = qt_widgets.QPushButton("Details")
+        btn_5 = qt_widgets.QPushButton("More Details")
 
         # Create a new layout inside checking for the buttons
         v_layout_inside_checking = qt_widgets.QVBoxLayout()
@@ -138,13 +140,13 @@ class Window_Overview(qt_widgets.QWidget):
 
         # Connect buttons to handlers
         btn_1.clicked.connect(self.make_deposit_handler)
+        btn_2.clicked.connect(self.make_withdrawal_handler)
+        btn_3.clicked.connect(self.transfer_funds_handler)
         btn_4.clicked.connect(self.show_graphs)
+        btn_5.clicked.connect(self.details_handler)
 
         # Add the checking account internal layout to the checking account horizontal layout
         self.tab_1.setLayout(self.checking_hbox)
-
-    def get_checking_account_data_from_csv(self):
-        pass
 
     # Savings account operations **************************************************************************************
     def create_savings_account_tab(self, user_data):
@@ -190,7 +192,7 @@ class Window_Overview(qt_widgets.QWidget):
         btn_2 = qt_widgets.QPushButton("Make A Withdrawal")
         btn_3 = qt_widgets.QPushButton("Transfer Funds")
         btn_4 = qt_widgets.QPushButton("Show Graphs")
-        btn_5 = qt_widgets.QPushButton("Details")
+        btn_5 = qt_widgets.QPushButton("More Details")
 
         # Create a new layout inside checking for the buttons
         v_layout_inside_savings = qt_widgets.QVBoxLayout()
@@ -210,6 +212,13 @@ class Window_Overview(qt_widgets.QWidget):
         v_layout_inside_savings.addStretch()
         v_layout_inside_savings.addWidget(btn_5)
         v_layout_inside_savings.addStretch()
+
+        # Connect buttons to handlers
+        btn_1.clicked.connect(self.make_deposit_handler)
+        btn_2.clicked.connect(self.make_withdrawal_handler)
+        btn_3.clicked.connect(self.transfer_funds_handler)
+        btn_4.clicked.connect(self.show_graphs)
+        btn_5.clicked.connect(self.details_handler)
 
         # Add the checking account internal layout to the checking account horizontal layout
         self.tab_2.setLayout(self.savings_hbox)
@@ -258,7 +267,7 @@ class Window_Overview(qt_widgets.QWidget):
         btn_2 = qt_widgets.QPushButton("Request A Cash Advance")
         btn_3 = qt_widgets.QPushButton("Request A Credit Line Increase")
         btn_4 = qt_widgets.QPushButton("Show Graphs")
-        btn_5 = qt_widgets.QPushButton("Details")
+        btn_5 = qt_widgets.QPushButton("More Details")
 
         # Create a new layout inside checking for the buttons
         v_layout_inside_credit_card = qt_widgets.QVBoxLayout()
@@ -279,6 +288,13 @@ class Window_Overview(qt_widgets.QWidget):
         v_layout_inside_credit_card.addWidget(btn_5)
         v_layout_inside_credit_card.addStretch()
 
+        # Connect buttons to handlers
+        btn_1.clicked.connect(self.make_deposit_handler)
+        btn_2.clicked.connect(self.make_withdrawal_handler)
+        btn_3.clicked.connect(self.transfer_funds_handler)
+        btn_4.clicked.connect(self.show_graphs)
+        btn_5.clicked.connect(self.details_handler)
+
         # Add the checking account internal layout to the checking account horizontal layout
         self.tab_3.setLayout(self.credit_card_hbox)
 
@@ -288,117 +304,311 @@ class Window_Overview(qt_widgets.QWidget):
 
     def make_deposit_handler(self):
         dt = datetime.datetime.now()
-        tx_id = qt_widgets.QTableWidgetItem(str(self.tx_number))
-        tx_type = qt_widgets.QTableWidgetItem("Deposit")
-        tx_amt = qt_widgets.QTableWidgetItem("[+] $50.99")
-        tx_cat = qt_widgets.QTableWidgetItem("ATM")
+
+        if self.tab_container.currentIndex() == 0 or self.tab_container.currentIndex() == 1:
+            tx_type = qt_widgets.QTableWidgetItem("Deposit")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Make A Deposit',
+                                                       'Enter An Amount To Deposit')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Make A Deposit',
+                                                       'Enter A Category For The Deposit')
+        else:
+            tx_type = qt_widgets.QTableWidgetItem("Payment")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Make A Payment',
+                                                       'Enter An Amount To Pay')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Make A Payment',
+                                                       'Enter A Category For The Payment')
+
+        # Debugging Only Code
+        # if ok1 and ok2:
+        #     print(str(amt))
+        #     print(cat)
+        #     cat = str(cat).capitalize()
+
+        if str(amt) == '' or str(cat) == '':
+            return
+
+        tx_amt = qt_widgets.QTableWidgetItem(f"${amt}")
+        tx_cat = qt_widgets.QTableWidgetItem(f"{cat}")
         tx_date = qt_widgets.QTableWidgetItem(str(dt.strftime("%m") + "/" + dt.strftime("%d") + "/" + dt.strftime("%Y")))
         tx_time = qt_widgets.QTableWidgetItem(str(dt.time().strftime('%H:%M:%S')))
 
-        self.table_1.setItem(self.tx_number - 1, 0, tx_id)
-        tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+        if self.tab_container.currentIndex() == 0:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.chk_tx_number))
 
-        self.table_1.setItem(self.tx_number - 1, 1, tx_type)
-        tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+            self.table_1.setItem(self.chk_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
 
-        self.table_1.setItem(self.tx_number - 1, 2, tx_amt)
-        tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+            self.table_1.setItem(self.chk_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
 
-        self.table_1.setItem(self.tx_number - 1, 3, tx_cat)
-        tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+            self.table_1.setItem(self.chk_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
 
-        self.table_1.setItem(self.tx_number - 1, 4, tx_date)
-        tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+            self.table_1.setItem(self.chk_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
 
-        self.table_1.setItem(self.tx_number - 1, 5, tx_time)
-        tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+            self.table_1.setItem(self.chk_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
 
-        self.tx_number += 1
+            self.table_1.setItem(self.chk_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.chk_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 1:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.svg_tx_number))
+
+            self.table_2.setItem(self.svg_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.svg_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 2:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.crd_tx_number))
+
+            self.table_3.setItem(self.crd_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.crd_tx_number += 1
 
     def make_withdrawal_handler(self):
-        pass
+        dt = datetime.datetime.now()
+
+        if self.tab_container.currentIndex() == 0 or self.tab_container.currentIndex() == 1:
+            tx_type = qt_widgets.QTableWidgetItem("Withdrawal")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Make A Withdrawal',
+                                                       'Enter An Amount To Withdrawal')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Make A Withdrawal',
+                                                       'Enter A Category For The Withdrawal')
+        else:
+            tx_type = qt_widgets.QTableWidgetItem("Cash Advance")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Request A Cash Advance',
+                                                       'Enter An Amount To Request')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Request A Cash Advance',
+                                                       'Enter A Category For The Request')
+
+        # Debugging Only Code
+        # if ok1 and ok2:
+        #     print(str(amt))
+        #     print(cat)
+        #     cat = str(cat).capitalize()
+
+        if str(amt) == '' or str(cat) == '':
+            return
+
+        tx_amt = qt_widgets.QTableWidgetItem(f"${amt}")
+        tx_cat = qt_widgets.QTableWidgetItem(f"{cat}")
+        tx_date = qt_widgets.QTableWidgetItem(
+            str(dt.strftime("%m") + "/" + dt.strftime("%d") + "/" + dt.strftime("%Y")))
+        tx_time = qt_widgets.QTableWidgetItem(str(dt.time().strftime('%H:%M:%S')))
+
+        if self.tab_container.currentIndex() == 0:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.chk_tx_number))
+
+            self.table_1.setItem(self.chk_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.chk_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 1:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.svg_tx_number))
+
+            self.table_2.setItem(self.svg_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.svg_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 2:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.crd_tx_number))
+
+            self.table_3.setItem(self.crd_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.crd_tx_number += 1
 
     def transfer_funds_handler(self):
-        pass
+        dt = datetime.datetime.now()
+
+        if self.tab_container.currentIndex() == 0 or self.tab_container.currentIndex() == 1:
+            tx_type = qt_widgets.QTableWidgetItem("Transfer")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Transfer Funds',
+                                                       'Enter An Amount To Transfer')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Transfer Funds',
+                                                       'Enter A Category For The Transfer')
+        else:
+            tx_type = qt_widgets.QTableWidgetItem("Credit Line Increase")
+            amt, ok1 = qt_widgets.QInputDialog.getText(self, 'Request A Credit Line Increase',
+                                                       'Enter An Amount To Request')
+
+            cat, ok2 = qt_widgets.QInputDialog.getText(self, 'Request A Credit Line Increase',
+                                                       'Enter A Category For The Request')
+
+        # Debugging Only Code
+        # if ok1 and ok2:
+        #     print(str(amt))
+        #     print(cat)
+        #     cat = str(cat).capitalize()
+
+        if str(amt) == '' or str(cat) == '':
+            return
+
+        tx_amt = qt_widgets.QTableWidgetItem(f"${amt}")
+        tx_cat = qt_widgets.QTableWidgetItem(f"{cat}")
+        tx_date = qt_widgets.QTableWidgetItem(
+            str(dt.strftime("%m") + "/" + dt.strftime("%d") + "/" + dt.strftime("%Y")))
+        tx_time = qt_widgets.QTableWidgetItem(str(dt.time().strftime('%H:%M:%S')))
+
+        if self.tab_container.currentIndex() == 0:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.chk_tx_number))
+
+            self.table_1.setItem(self.chk_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_1.setItem(self.chk_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.chk_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 1:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.svg_tx_number))
+
+            self.table_2.setItem(self.svg_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_2.setItem(self.svg_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.svg_tx_number += 1
+
+        elif self.tab_container.currentIndex() == 2:
+            tx_id = qt_widgets.QTableWidgetItem(str(self.crd_tx_number))
+
+            self.table_3.setItem(self.crd_tx_number - 1, 0, tx_id)
+            tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 1, tx_type)
+            tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 2, tx_amt)
+            tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 3, tx_cat)
+            tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 4, tx_date)
+            tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.table_3.setItem(self.crd_tx_number - 1, 5, tx_time)
+            tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
+
+            self.crd_tx_number += 1
 
     def show_graphs(self):
         stack.windowStack[3].user_interface()
 
-    def sign_out_handler(self):
+    def details_handler(self):
         pass
-
-# THE COMMENTED CODE BELOW SHOULD BE DELETED BEFORE THE DEMO
-# IT IS HARDCODED AND WILL BE REPLACED, ITS JUST THERE FROM PREVIOUS TESTING, DO NOT DELETE UNTIL 12/10/2019
-
-# For testing the table
-# dt = datetime.datetime.now()
-#
-# tx_id = qt_widgets.QTableWidgetItem("1")
-# tx_type = qt_widgets.QTableWidgetItem("Deposit")
-# tx_amt = qt_widgets.QTableWidgetItem("[+] $50.99")
-# tx_cat = qt_widgets.QTableWidgetItem("ATM")
-# tx_date = qt_widgets.QTableWidgetItem(str(dt.strftime("%A") + ", " + dt.strftime("%B") + " " + dt.strftime("%d") + ", " + str(dt.year)))
-# tx_time = qt_widgets.QTableWidgetItem(str(dt.time().strftime('%H:%M:%S')))
-#
-# self.table_1.setItem(0, 0, tx_id)
-# tx_id.setTextAlignment(qt_core.Qt.AlignCenter)
-#
-# self.table_1.setItem(0, 1, tx_type)
-# tx_type.setTextAlignment(qt_core.Qt.AlignCenter)
-#
-# self.table_1.setItem(0, 2, tx_amt)
-# tx_amt.setTextAlignment(qt_core.Qt.AlignCenter)
-#
-# self.table_1.setItem(0, 3, tx_cat)
-# tx_cat.setTextAlignment(qt_core.Qt.AlignCenter)
-#
-# self.table_1.setItem(0, 4, tx_date)
-# tx_date.setTextAlignment(qt_core.Qt.AlignCenter)
-#
-# self.table_1.setItem(0, 5, tx_time)
-# tx_time.setTextAlignment(qt_core.Qt.AlignCenter)
-
-# Add the checking account tab widgets
-# self.create_checking_account_tab(user_data)
-
-# # Begin Column: Checking information
-# self.labelChecking = qt_widgets.QLabel(self)
-# self.labelChecking.setText('Checking')
-# self.labelChecking.move(160, 30)
-#
-# self.labelAccountChecking = qt_widgets.QLabel(self)
-# self.buttonChecking = qt_widgets.QPushButton('Details', self)
-# if user_handling.findChecking(userData):
-#     self.labelAccountChecking.setText('Checking account found')
-#     self.labelAccountChecking.move(160, 80)
-#     self.buttonChecking.setText('Details')
-#     self.buttonChecking.move(160, 120)
-# else:
-#     self.labelAccountChecking.setText('Checking account NOT found')
-#     self.labelAccountChecking.move(160, 80)
-#     self.buttonChecking.setText('Add Account')
-#     self.buttonChecking.move(160, 120)
-#
-# # Begin Column: Savings information
-# self.labelSavings = qt_widgets.QLabel(self)
-# self.labelSavings.setText('Savings')
-# self.labelSavings.move(360, 30)
-#
-# self.labelAccountSavings = qt_widgets.QLabel(self)
-# self.buttonSavings = qt_widgets.QPushButton('Details', self)
-#
-# if user_handling.findSavings(userData):
-#     self.labelAccountSavings.setText('Savings account found')
-#     self.labelAccountSavings.move(360, 80)
-#     self.buttonSavings.setText('Details')
-#     self.buttonSavings.move(360, 120)
-# else:
-#     self.labelAccountSavings.setText('Savings account NOT found')
-#     self.labelAccountSavings.move(360, 80)
-#     self.buttonSavings.setText('Add Account')
-#     self.buttonSavings.move(360, 120)
-#
-# #Begin Column: Credit information
-# self.labelCredit = qt_widgets.QLabel(self)
-# self.labelCredit.setText('Credit')
-# self.labelCredit.move(560, 30)
